@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CacheIQ — Analytics & Telemetry</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface": "#0b1c30",
+            "secondary": "#006c4a",
+            "outline": "#6d7a77",
+            "primary": "#00685f",
+            "surface": "#f8f9ff",
+            "surface-container-low": "#eff4ff",
+            "surface-container-lowest": "#ffffff",
+            "outline-variant": "#bcc9c6"
+          },
+          fontFamily: {
+            "code": ["JetBrains Mono"],
+            "body": ["Inter"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body text-body text-on-surface antialiased">
+  <!-- Top Navigation Bar -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/40">
+    <div class="h-14 w-full px-6 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-8">
+        <a class="flex items-center gap-1.5" href="/">
+          <span class="tracking-tight font-bold text-lg">CacheIQ</span>
+          <span class="h-2 w-2 rounded-full bg-primary inline-block"></span>
+        </a>
+        <nav class="flex items-center gap-6 h-14">
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/">Chat</a>
+          <a class="inline-flex items-center h-full px-1 text-on-surface font-semibold border-b-2 border-primary" href="/analytics.html">Analytics</a>
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/entries.html">Entries</a>
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/arena.html">Arena</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-surface-container-low border border-outline-variant/60 font-code text-xs text-slate-600">
+          <span class="h-2 w-2 rounded-full bg-secondary inline-block"></span>
+          <span>Live Telemetry</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full pt-20 pb-12 bg-surface min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight">System Analytics & Savings</h1>
+          <p class="text-sm text-slate-500 mt-1">Real-time cache performance, avoided tokens, and reason-code telemetry.</p>
+        </div>
+        <button id="refresh-btn" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline-variant/70 bg-white hover:bg-slate-50 text-xs font-semibold">
+          <span class="material-symbols-outlined text-[16px]">refresh</span>
+          Refresh
+        </button>
+      </div>
+
+      <!-- PRD §9 DOM ID Contract Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Total Queries -->
+        <div class="bg-white border border-outline-variant/60 rounded-xl p-5 shadow-sm space-y-1">
+          <span class="text-xs font-semibold uppercase text-slate-500 tracking-wider">Total Queries</span>
+          <div id="stat-total" class="font-code text-3xl font-bold text-on-surface">0</div>
+          <span class="text-xs text-slate-400">Processed by pipeline</span>
+        </div>
+
+        <!-- Hits -->
+        <div class="bg-white border border-emerald-200 bg-emerald-50/20 rounded-xl p-5 shadow-sm space-y-1">
+          <span class="text-xs font-semibold uppercase text-emerald-800 tracking-wider">Cache Hits</span>
+          <div id="stat-hits" class="font-code text-3xl font-bold text-emerald-700">0</div>
+          <div class="text-xs text-emerald-700 font-medium">Hit Rate: <strong id="stat-hit-rate">0.0%</strong></div>
+        </div>
+
+        <!-- Misses -->
+        <div class="bg-white border border-amber-200 bg-amber-50/20 rounded-xl p-5 shadow-sm space-y-1">
+          <span class="text-xs font-semibold uppercase text-amber-800 tracking-wider">Cache Misses</span>
+          <div id="stat-misses" class="font-code text-3xl font-bold text-amber-700">0</div>
+          <span class="text-xs text-amber-700">Routed to LLM origin</span>
+        </div>
+
+        <!-- Cost Saved -->
+        <div class="bg-white border border-outline-variant/60 rounded-xl p-5 shadow-sm space-y-1">
+          <span class="text-xs font-semibold uppercase text-slate-500 tracking-wider">Estimated Savings</span>
+          <div id="stat-saved" class="font-code text-3xl font-bold text-secondary">$0.0000</div>
+          <span class="text-xs text-slate-400">Based on prompt/completion rates</span>
+        </div>
+      </div>
+
+      <!-- Second Grid: Calls avoided, made, latencies -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Avoided -->
+        <div class="bg-white border border-outline-variant/60 rounded-xl p-5 shadow-sm space-y-1">
+          <span class="text-xs font-semibold uppercase text-slate-500 tracking-wider">LLM Calls Avoided</span>
+          <div id="stat-avoided" class="font-code text-2xl font-bold text-secondary">0</div>
+          <span class="text-xs text-slate-400">Zero origin API calls</span>
+        </div>
+
+        <!-- Made -->
+        <div class="bg-white border border-outline-variant/60 rounded-xl p-5 shadow-sm space-y-1">
+          <span class="text-xs font-semibold uppercase text-slate-500 tracking-wider">LLM Calls Made</span>
+          <div id="stat-made" class="font-code text-2xl font-bold text-on-surface">0</div>
+          <span class="text-xs text-slate-400">Gemini/fallback queries</span>
+        </div>
+
+        <!-- Latency Hit -->
+        <div class="bg-white border border-outline-variant/60 rounded-xl p-5 shadow-sm space-y-1">
+          <span class="text-xs font-semibold uppercase text-slate-500 tracking-wider">Avg Latency (Hit)</span>
+          <div id="stat-lat-hit" class="font-code text-2xl font-bold text-emerald-700">0.0 ms</div>
+          <span class="text-xs text-slate-400">Fast vector search</span>
+        </div>
+
+        <!-- Latency Miss -->
+        <div class="bg-white border border-outline-variant/60 rounded-xl p-5 shadow-sm space-y-1">
+          <span class="text-xs font-semibold uppercase text-slate-500 tracking-wider">Avg Latency (Miss)</span>
+          <div id="stat-lat-miss" class="font-code text-2xl font-bold text-amber-700">0.0 ms</div>
+          <span class="text-xs text-slate-400">Full LLM generation</span>
+        </div>
+      </div>
+
+      <!-- Reason Code Breakdown (PRD §9 id: #reason-list) -->
+      <div class="bg-white border border-outline-variant/60 rounded-xl p-6 shadow-sm space-y-4">
+        <h2 class="text-base font-bold text-on-surface">Reason-Code Breakdown</h2>
+        <p class="text-xs text-slate-500">Breakdown of all cache hits and misses categorized by decision rules.</p>
+        <div id="reason-list" class="space-y-2">
+          <div class="text-sm text-slate-400 italic">No query traffic recorded yet.</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        if (!res.ok) return;
+        const data = await res.json();
+
+        document.getElementById('stat-total').textContent = data.total_queries;
+        document.getElementById('stat-hits').textContent = data.hits;
+        document.getElementById('stat-misses').textContent = data.misses;
+        document.getElementById('stat-hit-rate').textContent = (data.hit_rate * 100).toFixed(1) + '%';
+        document.getElementById('stat-saved').textContent = '$' + Number(data.est_cost_saved || 0).toFixed(4);
+        document.getElementById('stat-avoided').textContent = data.llm_calls_avoided;
+        document.getElementById('stat-made').textContent = data.llm_calls_made;
+        document.getElementById('stat-lat-hit').textContent = (data.avg_total_ms_hit || 0).toFixed(1) + ' ms';
+        document.getElementById('stat-lat-miss').textContent = (data.avg_total_ms_miss || 0).toFixed(1) + ' ms';
+
+        const reasonList = document.getElementById('reason-list');
+        reasonList.innerHTML = '';
+        const entries = Object.entries(data.by_reason || {});
+        if (entries.length === 0) {
+          reasonList.innerHTML = '<div class="text-sm text-slate-400 italic">No query traffic recorded yet.</div>';
+        } else {
+          for (const [code, count] of entries) {
+            const isHit = code.startsWith('HIT');
+            const color = isHit ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-amber-800 bg-amber-50 border-amber-200';
+            const row = document.createElement('div');
+            row.className = 'flex items-center justify-between p-3 rounded-lg border border-slate-100 bg-slate-50';
+            row.innerHTML = `
+              <div class="flex items-center gap-3">
+                <span class="px-2 py-0.5 rounded font-code text-xs font-bold border ${color}">${code}</span>
+                <span class="text-xs text-slate-600 font-medium">${count} requests</span>
+              </div>
+              <span class="font-code text-xs font-semibold">${data.total_queries ? ((count / data.total_queries) * 100).toFixed(1) : 0}%</span>
+            `;
+            reasonList.appendChild(row);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load stats:', err);
+      }
+    }
+
+    document.getElementById('refresh-btn').addEventListener('click', loadStats);
+    loadStats();
+  </script>
+</body>
+</html>
+

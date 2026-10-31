@@ -13,7 +13,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.testclient import TestClient
 
 from backend.app.main import http_exception_handler, validation_exception_handler
-from backend.app.routes import router
+from backend.app.routes import router, _semantic_strategy
 from backend.app import config
 from backend.engine.eval.arena import load_dataset, PostgresArenaRunner
 from backend.engine.store import repo
@@ -35,7 +35,7 @@ def test_llm_timeout_returns_clean_json_error_and_stores_nothing(test_client):
     with patch("backend.engine.strategies.semantic_verified.repo.get_by_exact_key", return_value=None), \
          patch("backend.engine.strategies.semantic_verified.repo.search_top_k", return_value=[]), \
          patch("backend.engine.strategies.semantic_verified.repo.insert_entry") as mock_insert, \
-         patch("backend.engine.llm.mock_llm.MockLLM.generate", side_effect=timeout_err):
+         patch.object(_semantic_strategy.llm, "generate", side_effect=timeout_err):
 
         res = test_client.post("/api/query", json={"query": "Explain quantum cryptography algorithms."})
 
@@ -59,7 +59,7 @@ def test_llm_general_error_returns_clean_json_error_and_stores_nothing(test_clie
     with patch("backend.engine.strategies.semantic_verified.repo.get_by_exact_key", return_value=None), \
          patch("backend.engine.strategies.semantic_verified.repo.search_top_k", return_value=[]), \
          patch("backend.engine.strategies.semantic_verified.repo.insert_entry") as mock_insert, \
-         patch("backend.engine.llm.mock_llm.MockLLM.generate", side_effect=runtime_err):
+         patch.object(_semantic_strategy.llm, "generate", side_effect=runtime_err):
 
         res = test_client.post("/api/query", json={"query": "Explain database indexing in PostgreSQL."})
 

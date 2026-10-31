@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CacheIQ — Strategy Arena</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface": "#0b1c30",
+            "secondary": "#006c4a",
+            "outline": "#6d7a77",
+            "primary": "#00685f",
+            "surface": "#f8f9ff",
+            "surface-container-low": "#eff4ff",
+            "surface-container-lowest": "#ffffff",
+            "outline-variant": "#bcc9c6"
+          },
+          fontFamily: {
+            "code": ["JetBrains Mono"],
+            "body": ["Inter"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body text-body text-on-surface antialiased">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/40">
+    <div class="h-14 w-full px-6 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-8">
+        <a class="flex items-center gap-1.5" href="/">
+          <span class="tracking-tight font-bold text-lg">CacheIQ</span>
+          <span class="h-2 w-2 rounded-full bg-primary inline-block"></span>
+        </a>
+        <nav class="flex items-center gap-6 h-14">
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/">Chat</a>
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/analytics.html">Analytics</a>
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/entries.html">Entries</a>
+          <a class="inline-flex items-center h-full px-1 text-on-surface font-semibold border-b-2 border-primary" href="/arena.html">Arena</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-surface-container-low border border-outline-variant/60 font-code text-xs text-slate-600">
+          <span>Winner: <strong id="arena-winner" class="text-secondary font-bold">Semantic Verified</strong></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full pt-20 pb-12 bg-surface min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight">Strategy Arena & Benchmark</h1>
+          <p class="text-sm text-slate-500 mt-1">Side-by-side evaluation across No Cache, Exact Match, Semantic Raw, and Semantic Verified strategies.</p>
+        </div>
+        <!-- PRD §9 contract: #arena-run -->
+        <button id="arena-run" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-emerald-800 text-white font-semibold text-sm shadow transition-colors">
+          <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+          Run Benchmark
+        </button>
+      </div>
+
+      <!-- Benchmark Results Table (PRD §9 contract: #arena-body) -->
+      <div class="bg-white border border-outline-variant/60 rounded-xl shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-outline-variant/40 bg-slate-50/50 flex items-center justify-between">
+          <h2 class="font-bold text-base">Benchmark Performance (35 Eval Pairs)</h2>
+          <span id="arena-run-info" class="font-code text-xs text-slate-500">Live evaluation on Postgres</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-outline-variant/40 text-xs uppercase font-semibold text-slate-500 tracking-wider">
+                <th class="py-3.5 px-4">Strategy</th>
+                <th class="py-3.5 px-4 text-center">Precision</th>
+                <th class="py-3.5 px-4 text-center">False Hit</th>
+                <th class="py-3.5 px-4 text-center">Hit Rate</th>
+                <th class="py-3.5 px-4 text-center">Recall</th>
+                <th class="py-3.5 px-4 text-center">Avg Latency</th>
+                <th class="py-3.5 px-4 text-center">P95 Latency</th>
+                <th class="py-3.5 px-4 text-center">Calls Avoided</th>
+              </tr>
+            </thead>
+            <tbody id="arena-body" class="divide-y divide-outline-variant/30 text-sm">
+              <tr>
+                <td colspan="8" class="py-8 text-center text-slate-400 italic">Loading latest arena benchmark...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Threshold Sweep Chart (PRD §9 contract: #arena-sweep-img) -->
+      <div class="bg-white border border-outline-variant/60 rounded-xl p-6 shadow-sm space-y-4">
+        <div>
+          <h2 class="text-base font-bold text-on-surface">Threshold Sweep Evaluation (0.70 → 0.95)</h2>
+          <p class="text-xs text-slate-500">Tradeoff curve between Precision and Recall across similarity thresholds.</p>
+        </div>
+        <div class="border border-slate-200 rounded-lg p-2 bg-slate-50 flex justify-center">
+          <img id="arena-sweep-img" src="/sweep.png" alt="CacheIQ Threshold Sweep Curve" class="max-h-[480px] object-contain rounded shadow-sm">
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    async function loadArenaLatest() {
+      try {
+        const res = await fetch('/api/arena/latest');
+        if (!res.ok) return;
+        const data = await res.json();
+        renderArena(data);
+      } catch (err) {
+        console.error('Failed to load arena data:', err);
+      }
+    }
+
+    function renderArena(data) {
+      const tbody = document.getElementById('arena-body');
+      const winnerEl = document.getElementById('arena-winner');
+      const runInfoEl = document.getElementById('arena-run-info');
+
+      if (data.run_id) {
+        runInfoEl.textContent = `Run ID: ${data.run_id} • ${data.dataset_size} pairs`;
+      }
+      if (data.winner) {
+        winnerEl.textContent = `${data.winner.precision || 'Semantic Verified'} (Precision)`;
+      }
+
+      if (!data.rows || data.rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="py-8 text-center text-slate-400">Click "Run Benchmark" to execute evaluation.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = '';
+      data.rows.forEach(r => {
+        const isVerified = r.strategy === 'semantic_verified';
+        const stratName = {
+          'no_cache': 'A: No Cache',
+          'exact_match': 'B: Exact Match',
+          'semantic_raw': 'C: Semantic Raw',
+          'semantic_verified': 'D: Semantic Verified (CacheIQ)'
+        }[r.strategy] || r.strategy;
+
+        const row = document.createElement('tr');
+        row.className = isVerified ? 'bg-emerald-50/40 font-semibold' : 'hover:bg-slate-50/70';
+
+        const precText = r.precision !== null && r.precision !== undefined ? (r.precision * 100).toFixed(1) + '%' : 'n/a';
+        const falseHitText = r.false_hit_rate !== null && r.false_hit_rate !== undefined ? (r.false_hit_rate * 100).toFixed(1) + '%' : '0.0%';
+        const hitRateText = (r.hit_rate * 100).toFixed(1) + '%';
+        const recallText = (r.recall_same * 100).toFixed(1) + '%';
+        const avgLat = r.avg_lookup_ms.toFixed(1) + ' ms';
+        const p95Lat = r.p95_lookup_ms.toFixed(1) + ' ms';
+
+        row.innerHTML = `
+          <td class="py-3.5 px-4">
+            <div class="flex items-center gap-2">
+              ${isVerified ? '<span class="material-symbols-outlined text-emerald-700 text-[18px]">verified</span>' : ''}
+              <span class="${isVerified ? 'text-emerald-900 font-bold' : 'text-slate-800'}">${stratName}</span>
+            </div>
+          </td>
+          <td class="py-3.5 px-4 text-center font-code ${r.precision === 1.0 ? 'text-emerald-700 font-bold' : ''}">${precText}</td>
+          <td class="py-3.5 px-4 text-center font-code ${r.false_hit_rate > 0 ? 'text-rose-600 font-bold' : 'text-slate-600'}">${falseHitText}</td>
+          <td class="py-3.5 px-4 text-center font-code">${hitRateText}</td>
+          <td class="py-3.5 px-4 text-center font-code">${recallText}</td>
+          <td class="py-3.5 px-4 text-center font-code text-slate-700">${avgLat}</td>
+          <td class="py-3.5 px-4 text-center font-code text-slate-700">${p95Lat}</td>
+          <td class="py-3.5 px-4 text-center font-code text-secondary">${r.llm_calls_avoided}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    document.getElementById('arena-run').addEventListener('click', async () => {
+      const btn = document.getElementById('arena-run');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span> Running benchmark...';
+      try {
+        const res = await fetch('/api/arena/run', { method: 'POST' });
+        if (res.ok) {
+          const data = await res.json();
+          renderArena(data);
+        } else {
+          alert('Arena run failed: ' + res.statusText);
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">play_arrow</span> Run Benchmark';
+      }
+    });
+
+    loadArenaLatest();
+  </script>
+</body>
+</html>
+

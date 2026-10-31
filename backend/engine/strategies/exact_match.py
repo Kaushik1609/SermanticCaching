@@ -15,8 +15,8 @@ from backend.engine.strategies.base import BaseStrategy
 
 class ExactMatchStrategy(BaseStrategy):
 
-    def __init__(self):
-        self.llm = get_llm()
+    def __init__(self, llm=None):
+        self.llm = llm or get_llm()
         self.config_hash = compute_config_hash(
             provider=config.LLM_PROVIDER,
             model="default",

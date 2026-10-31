@@ -13,19 +13,20 @@ from unittest.mock import patch
 import pytest
 
 from backend.app.models import QueryRequest
+from backend.engine.llm.mock_llm import MockLLM
 from backend.engine.strategies.exact_match import ExactMatchStrategy
 from backend.engine.strategies.semantic_verified import SemanticVerifiedStrategy
 
 
 @pytest.fixture
 def exact_strategy():
-    return ExactMatchStrategy()
+    return ExactMatchStrategy(llm=MockLLM())
 
 
 @pytest.fixture
 def semantic_strategy():
     # Use standard T_HIT=0.85, T_LOW=0.75
-    return SemanticVerifiedStrategy(t_hit=0.85, t_low=0.75)
+    return SemanticVerifiedStrategy(t_hit=0.85, t_low=0.75, llm=MockLLM())
 
 
 def test_exact_strategy_hit(exact_strategy):

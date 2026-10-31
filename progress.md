@@ -123,5 +123,22 @@ Similarity Threshold T_HIT = 0.85
 
 ---
 ## Builder 2 Progress
-- Pending
+- **Status:** Completed & Verified Live
+- **Components Implemented:**
+  - `frontend/index.html` (Chat Console & Inspector):
+    - Replaced Stitch mock placeholder JavaScript with real `fetch()` calls to `POST /api/query`, `GET /api/stats`, `POST /api/admin/reset`, and `POST /api/entries/{id}/invalidate`.
+    - Implemented full PRD §9 DOM ID Contract: `#query-input`, `#send-btn`, `#chat-log`, `#strategy-select`, `#badge-outcome`, `#val-similarity`, `#val-lookup-ms`, `#val-total-ms`, `#val-reason`, `#val-explain`, `#val-matched`.
+    - Live dynamic right-hand inspector updates on every query exchange with semantic decision reasons, similarity bars, and latency breakdowns.
+  - `frontend/analytics.html`:
+    - Full telemetry dashboard matching PRD §9 contract (`#stat-total`, `#stat-hits`, `#stat-misses`, `#stat-hit-rate`, `#stat-avoided`, `#stat-made`, `#stat-lat-hit`, `#stat-lat-miss`, `#stat-saved`, `#reason-list`).
+  - `frontend/entries.html`:
+    - Cache entries management table with status tags, hit counts, created/expires timestamps, and admin-authenticated row-level invalidation (`#entries-body`, `#entries-total`).
+  - `frontend/arena.html`:
+    - Benchmark execution console with interactive run trigger, 4-row strategy comparison table, winner badge, and rendered threshold sweep curve image (`#arena-run`, `#arena-body`, `#arena-winner`, `#arena-sweep-img`).
+- **Live Localhost Verification:**
+  - Tested on `http://127.0.0.1:8080/`:
+    - Prompt `how does machine learning work` -> `MISS_BELOW_THRESHOLD` stored in cache with Gemini LLM generation.
+    - Repeated exact prompt -> `HIT_EXACT` in 9.8 ms (`similarity: 1.0`).
+    - Paraphrase prompt `Can you explain how machine learning works?` -> `HIT_SEMANTIC` in 78.0 ms (`similarity: 0.94 >= 0.85`, LLM not called).
+  - All 57 pytest tests pass with 0 skipped.
 

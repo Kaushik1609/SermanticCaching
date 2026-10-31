@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CacheIQ — Cache Entries</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface": "#0b1c30",
+            "secondary": "#006c4a",
+            "outline": "#6d7a77",
+            "primary": "#00685f",
+            "surface": "#f8f9ff",
+            "surface-container-low": "#eff4ff",
+            "surface-container-lowest": "#ffffff",
+            "outline-variant": "#bcc9c6"
+          },
+          fontFamily: {
+            "code": ["JetBrains Mono"],
+            "body": ["Inter"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body text-body text-on-surface antialiased">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b border-outline-variant/40">
+    <div class="h-14 w-full px-6 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-8">
+        <a class="flex items-center gap-1.5" href="/">
+          <span class="tracking-tight font-bold text-lg">CacheIQ</span>
+          <span class="h-2 w-2 rounded-full bg-primary inline-block"></span>
+        </a>
+        <nav class="flex items-center gap-6 h-14">
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/">Chat</a>
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/analytics.html">Analytics</a>
+          <a class="inline-flex items-center h-full px-1 text-on-surface font-semibold border-b-2 border-primary" href="/entries.html">Entries</a>
+          <a class="inline-flex items-center h-full px-1 text-slate-500 hover:text-on-surface transition-colors" href="/arena.html">Arena</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-surface-container-low border border-outline-variant/60 font-code text-xs text-slate-600">
+          <span>Total Entries: <strong id="entries-total" class="text-on-surface font-bold">0</strong></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full pt-20 pb-12 bg-surface min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight">Active Cache Entries</h1>
+          <p class="text-sm text-slate-500 mt-1">Inspected embeddings, hit counts, TTL, and manual invalidation.</p>
+        </div>
+        <button id="refresh-entries-btn" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline-variant/70 bg-white hover:bg-slate-50 text-xs font-semibold">
+          <span class="material-symbols-outlined text-[16px]">refresh</span>
+          Refresh
+        </button>
+      </div>
+
+      <!-- Entries Table (PRD §9 contract: #entries-body, #entries-total) -->
+      <div class="bg-white border border-outline-variant/60 rounded-xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-outline-variant/40 text-xs uppercase font-semibold text-slate-500 tracking-wider">
+                <th class="py-3 px-4">ID</th>
+                <th class="py-3 px-4">Query Text</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4">Hit Count</th>
+                <th class="py-3 px-4">Created</th>
+                <th class="py-3 px-4">Expires</th>
+                <th class="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="entries-body" class="divide-y divide-outline-variant/30 text-sm">
+              <tr>
+                <td colspan="7" class="py-8 text-center text-slate-400 italic font-body">Loading entries...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    async function loadEntries() {
+      const tbody = document.getElementById('entries-body');
+      const totalEl = document.getElementById('entries-total');
+      try {
+        const res = await fetch('/api/entries?limit=100');
+        if (!res.ok) throw new Error('API returned status ' + res.status);
+        const data = await res.json();
+
+        totalEl.textContent = data.total;
+
+        if (!data.items || data.items.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-400 italic">No cache entries stored yet. Send a query in the Chat tab!</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = '';
+        data.items.forEach(item => {
+          const isAct = item.status === 'ACTIVE';
+          const statusBadge = isAct 
+            ? '<span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">ACTIVE</span>'
+            : '<span class="px-2 py-0.5 rounded text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">' + item.status + '</span>';
+
+          const row = document.createElement('tr');
+          row.className = 'hover:bg-slate-50/70 transition-colors';
+          row.innerHTML = `
+            <td class="py-3 px-4 font-code text-xs font-bold text-slate-700">#${item.id}</td>
+            <td class="py-3 px-4 max-w-md font-medium text-slate-900 truncate" title="${escapeHtml(item.query_text)}">${escapeHtml(item.query_text)}</td>
+            <td class="py-3 px-4">${statusBadge}</td>
+            <td class="py-3 px-4 font-code text-xs">${item.hit_count || 0}</td>
+            <td class="py-3 px-4 font-code text-xs text-slate-500">${new Date(item.created_at).toLocaleString()}</td>
+            <td class="py-3 px-4 font-code text-xs text-slate-500">${new Date(item.expires_at).toLocaleTimeString()}</td>
+            <td class="py-3 px-4 text-right">
+              ${isAct ? `<button class="invalidate-btn px-2.5 py-1 text-xs font-semibold rounded bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition-colors" data-id="${item.id}">Invalidate</button>` : '<span class="text-xs text-slate-400">—</span>'}
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        document.querySelectorAll('.invalidate-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const id = e.target.getAttribute('data-id');
+            const adminKey = prompt('Enter admin key to invalidate entry #' + id + ':', 'changeme');
+            if (!adminKey) return;
+            try {
+              const invRes = await fetch(`/api/entries/${id}/invalidate`, {
+                method: 'POST',
+                headers: { 'X-Admin-Key': adminKey }
+              });
+              if (invRes.ok) {
+                alert(`Entry #${id} invalidated.`);
+                loadEntries();
+              } else {
+                alert('Invalidation failed: ' + invRes.statusText);
+              }
+            } catch (err) {
+              alert('Error: ' + err.message);
+            }
+          });
+        });
+
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-rose-500">Failed to load entries: ${escapeHtml(err.message)}</td></tr>`;
+      }
+    }
+
+    document.getElementById('refresh-entries-btn').addEventListener('click', loadEntries);
+    loadEntries();
+  </script>
+</body>
+</html>
+

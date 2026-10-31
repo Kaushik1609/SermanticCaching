@@ -33,10 +33,10 @@ from backend.engine.verifier.verifier import verify
 
 class SemanticVerifiedStrategy(BaseStrategy):
 
-    def __init__(self, t_hit: float = config.T_HIT, t_low: float = config.T_LOW):
+    def __init__(self, t_hit: float = config.T_HIT, t_low: float = config.T_LOW, llm=None):
         self.t_hit = t_hit
         self.t_low = t_low
-        self.llm = get_llm()
+        self.llm = llm or get_llm()
         self.config_hash = compute_config_hash(
             provider=config.LLM_PROVIDER,
             model="default",

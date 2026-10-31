@@ -26,6 +26,7 @@ from backend.app.models import (
     ArenaWinner,
     ArenaResponse,
 )
+from backend.engine.llm.mock_llm import MockLLM
 from backend.engine.store import repo
 from backend.engine.strategies.base import BaseStrategy
 from backend.engine.strategies.no_cache import NoCacheStrategy
@@ -57,22 +58,21 @@ class PostgresArenaRunner:
     def __init__(self, t_hit: float = config.T_HIT, t_low: float = config.T_LOW):
         self.t_hit = t_hit
         self.t_low = t_low
+        self.mock_llm = MockLLM(latency_ms=0)
 
     def _get_strategy(self, strat_name: str) -> BaseStrategy:
         if strat_name == "no_cache":
-            strat = NoCacheStrategy()
+            strat = NoCacheStrategy(llm=self.mock_llm)
         elif strat_name == "exact_match":
-            strat = ExactMatchStrategy()
+            strat = ExactMatchStrategy(llm=self.mock_llm)
         elif strat_name == "semantic_raw":
-            strat = SemanticRawStrategy(t_hit=self.t_hit)
+            strat = SemanticRawStrategy(t_hit=self.t_hit, llm=self.mock_llm)
         elif strat_name == "semantic_verified":
-            strat = SemanticVerifiedStrategy(t_hit=self.t_hit, t_low=self.t_low)
+            strat = SemanticVerifiedStrategy(t_hit=self.t_hit, t_low=self.t_low, llm=self.mock_llm)
         else:
             raise ValueError(f"Unknown strategy: {strat_name}")
 
-        # Set mock LLM latency to 0 so benchmark measures lookup latency without simulated sleeps
-        if hasattr(strat, "llm") and hasattr(strat.llm, "latency_ms"):
-            strat.llm.latency_ms = 0
+        return strat
         return strat
 
     def evaluate_strategy(

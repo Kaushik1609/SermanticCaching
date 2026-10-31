@@ -13,8 +13,8 @@ from backend.engine.strategies.base import BaseStrategy
 
 class NoCacheStrategy(BaseStrategy):
 
-    def __init__(self):
-        self.llm = get_llm()
+    def __init__(self, llm=None):
+        self.llm = llm or get_llm()
 
     def handle(self, req: QueryRequest) -> QueryResponse:
         t0 = time.perf_counter()

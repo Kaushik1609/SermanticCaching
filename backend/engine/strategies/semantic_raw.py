@@ -23,9 +23,9 @@ from backend.engine.strategies.base import BaseStrategy
 
 class SemanticRawStrategy(BaseStrategy):
 
-    def __init__(self, t_hit: float = config.T_HIT):
+    def __init__(self, t_hit: float = config.T_HIT, llm=None):
         self.t_hit = t_hit
-        self.llm = get_llm()
+        self.llm = llm or get_llm()
         self.config_hash = compute_config_hash(
             provider=config.LLM_PROVIDER,
             model="default",
