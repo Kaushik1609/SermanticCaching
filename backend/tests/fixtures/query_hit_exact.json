@@ -1,0 +1,16 @@
+{
+  "answer": "Machine learning is a field of artificial intelligence where algorithms learn patterns from data to make decisions or predictions, rather than being explicitly programmed with rigid rules.",
+  "outcome": "HIT",
+  "hit_type": "EXACT",
+  "reason_code": "HIT_EXACT",
+  "explain": "Exact match found for this query, context, and config.",
+  "similarity": 1.0,
+  "matched_query": "What is machine learning?",
+  "matched_entry_id": 12,
+  "llm_called": false,
+  "lookup_ms": 2.1,
+  "total_ms": 2.5,
+  "strategy": "semantic_verified",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "llm_mode": "mock"
+}

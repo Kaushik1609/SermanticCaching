@@ -1,0 +1,36 @@
+{"id": "P001", "query_a": "What is machine learning?", "query_b": "Explain machine learning.", "label": "same", "category": "paraphrase", "note": "clear paraphrase"}
+{"id": "P002", "query_a": "How does backpropagation work?", "query_b": "Explain backpropagation in neural networks.", "label": "same", "category": "paraphrase", "note": "neural net backprop explanation"}
+{"id": "P003", "query_a": "What is the capital of France?", "query_b": "Tell me the capital city of France.", "label": "same", "category": "paraphrase", "note": "geography factual question"}
+{"id": "P004", "query_a": "How to reverse a linked list in Python?", "query_b": "Reverse linked list Python code", "label": "same", "category": "paraphrase", "note": "programming algorithm question"}
+{"id": "P005", "query_a": "What is gradient descent?", "query_b": "Explain the gradient descent optimization algorithm.", "label": "same", "category": "paraphrase", "note": "optimization concept"}
+{"id": "P006", "query_a": "How to read a CSV file with Pandas?", "query_b": "Pandas read csv code example", "label": "same", "category": "paraphrase", "note": "pandas code lookup"}
+{"id": "P007", "query_a": "What are transformer models in NLP?", "query_b": "Explain transformer architecture in natural language processing.", "label": "same", "category": "paraphrase", "note": "NLP transformer architecture"}
+{"id": "P008", "query_a": "Define overfitting in machine learning.", "query_b": "What does overfitting mean in ML?", "label": "same", "category": "paraphrase", "note": "ML terminology"}
+{"id": "P009", "query_a": "How do convolutional neural networks work?", "query_b": "Explain CNN architecture.", "label": "same", "category": "paraphrase", "note": "CNN explanation"}
+{"id": "P010", "query_a": "What is semantic caching?", "query_b": "Explain semantic cache for LLM applications.", "label": "same", "category": "paraphrase", "note": "semantic caching definition"}
+{"id": "P011", "query_a": "What is Python?", "query_b": "What is Python?", "label": "same", "category": "exact_dup", "note": "identical query text"}
+{"id": "P012", "query_a": "What is Docker?", "query_b": "What is Docker?", "label": "same", "category": "exact_dup", "note": "identical query text"}
+{"id": "P013", "query_a": "Explain HTTP status code 404.", "query_b": "Explain HTTP status code 404.", "label": "same", "category": "exact_dup", "note": "identical query text"}
+{"id": "P014", "query_a": "What is Python?", "query_b": "What is the latest Python version?", "label": "different", "category": "related_different", "note": "language overview vs specific release version"}
+{"id": "P015", "query_a": "What is the capital of France?", "query_b": "What is the capital of Germany?", "label": "different", "category": "related_different", "note": "different countries"}
+{"id": "P016", "query_a": "How to sort a list in Python?", "query_b": "How to reverse a list in Python?", "label": "different", "category": "related_different", "note": "sort vs reverse"}
+{"id": "P017", "query_a": "Difference between supervised and unsupervised learning", "query_b": "Difference between classification and regression", "label": "different", "category": "related_different", "note": "related ML distinctions"}
+{"id": "P018", "query_a": "Explain precision and recall", "query_b": "Explain accuracy and F1 score", "label": "different", "category": "related_different", "note": "different evaluation metrics"}
+{"id": "P019", "query_a": "What is a relational database?", "query_b": "What is a vector database?", "label": "different", "category": "related_different", "note": "relational vs vector DB"}
+{"id": "P020", "query_a": "How to install PostgreSQL on Ubuntu?", "query_b": "How to install Redis on Ubuntu?", "label": "different", "category": "related_different", "note": "different software packages"}
+{"id": "P021", "query_a": "What is the current stock price of Apple?", "query_b": "Apple stock price today", "label": "different", "category": "time_sensitive", "note": "financial real-time data"}
+{"id": "P022", "query_a": "What is the weather in Tokyo right now?", "query_b": "Current weather Tokyo", "label": "different", "category": "time_sensitive", "note": "real-time weather"}
+{"id": "P023", "query_a": "Latest news about artificial intelligence", "query_b": "AI news today", "label": "different", "category": "time_sensitive", "note": "news query"}
+{"id": "P024", "query_a": "What are the latest updates in Python 3.12?", "query_b": "Newest features in Python 3.12 as of this month", "label": "different", "category": "time_sensitive", "note": "freshness sensitive query"}
+{"id": "P025", "query_a": "Who is currently the CEO of Microsoft?", "query_b": "Microsoft CEO now", "label": "different", "category": "time_sensitive", "note": "current role check"}
+{"id": "P026", "query_a": "Top 5 programming languages in 2024", "query_b": "Top 10 programming languages in 2024", "label": "different", "category": "numeric", "note": "5 vs 10 count mismatch"}
+{"id": "P027", "query_a": "Best sci-fi movies of 2023", "query_b": "Best sci-fi movies of 2024", "label": "different", "category": "numeric", "note": "2023 vs 2024 year mismatch"}
+{"id": "P028", "query_a": "How to lose 5 pounds in a month?", "query_b": "How to lose 15 pounds in a month?", "label": "different", "category": "numeric", "note": "5 vs 15 quantity mismatch"}
+{"id": "P029", "query_a": "Python 3.11 release highlights", "query_b": "Python 3.12 release highlights", "label": "different", "category": "numeric", "note": "version 3.11 vs 3.12"}
+{"id": "P030", "query_a": "Top 3 cloud providers in 2024", "query_b": "Top 5 cloud providers in 2024", "label": "different", "category": "numeric", "note": "3 vs 5 ranking count"}
+{"id": "P031", "query_a": "Is Python an interpreted language?", "query_b": "Is Python compiled or interpreted?", "label": "different", "category": "ambiguous", "note": "ambiguous semantic overlap"}
+{"id": "P032", "query_a": "What is the speed of light?", "query_b": "How fast does light travel in vacuum?", "label": "same", "category": "paraphrase", "note": "physics constant paraphrase"}
+{"id": "P033", "query_a": "What causes earthquakes?", "query_b": "Why do tectonic plates cause earthquakes?", "label": "different", "category": "ambiguous", "note": "general cause vs specific plate mechanism"}
+{"id": "P034", "query_a": "How does DNS lookup work?", "query_b": "Explain the DNS resolution process.", "label": "same", "category": "paraphrase", "note": "networking concept paraphrase"}
+{"id": "P035", "query_a": "What is an API?", "query_b": "What is an API gateway?", "label": "different", "category": "related_different", "note": "API concept vs gateway component"}
+

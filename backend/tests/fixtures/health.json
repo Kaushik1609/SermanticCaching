@@ -1,0 +1,7 @@
+{
+  "status": "ok",
+  "db_ok": true,
+  "model_loaded": true,
+  "llm_mode": "mock",
+  "version": "2.0.0"
+}

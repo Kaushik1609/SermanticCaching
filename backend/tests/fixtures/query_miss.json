@@ -1,0 +1,16 @@
+{
+  "answer": "[mock answer] What is quantum computing?",
+  "outcome": "MISS",
+  "hit_type": null,
+  "reason_code": "MISS_NO_CANDIDATE",
+  "explain": "No cached entries found in this context.",
+  "similarity": null,
+  "matched_query": null,
+  "matched_entry_id": null,
+  "llm_called": true,
+  "lookup_ms": 15.2,
+  "total_ms": 1520.3,
+  "strategy": "semantic_verified",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "llm_mode": "mock"
+}

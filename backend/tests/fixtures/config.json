@@ -1,0 +1,8 @@
+{
+  "t_hit": 0.85,
+  "t_low": 0.75,
+  "embedding_model": "all-MiniLM-L6-v2",
+  "llm_mode": "mock",
+  "price_in": 0.00000015,
+  "price_out": 0.0000006
+}

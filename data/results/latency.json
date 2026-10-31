@@ -1,0 +1,31 @@
+{
+  "benchmark_date": "2026-10-31",
+  "database": "PostgreSQL 16 with pgvector",
+  "index_type": "HNSW (vector_cosine_ops)",
+  "dimension": 384,
+  "hardware": {
+    "system": "Windows",
+    "release": "11",
+    "version": "10.0.26200",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+    "cpu_count_logical": 12,
+    "python_version": "3.14.0"
+  },
+  "scales": {
+    "1k": {
+      "entries_count": 1000,
+      "queries_tested": 200,
+      "mean_lookup_ms": 56.37,
+      "p95_lookup_ms": 71.86,
+      "p99_lookup_ms": 95.95
+    },
+    "10k": {
+      "entries_count": 10000,
+      "queries_tested": 200,
+      "mean_lookup_ms": 78.5,
+      "p95_lookup_ms": 109.52,
+      "p99_lookup_ms": 157.88
+    }
+  }
+}

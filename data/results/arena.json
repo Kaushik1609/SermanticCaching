@@ -1,0 +1,59 @@
+{
+  "run_id": "r_69ecdd",
+  "dataset_size": 35,
+  "thresholds": {
+    "T_HIT": 0.85,
+    "T_LOW": 0.75
+  },
+  "llm_mode": "mock",
+  "rows": [
+    {
+      "strategy": "no_cache",
+      "hit_rate": 0.0,
+      "precision": null,
+      "false_hit_rate": null,
+      "recall_same": 0.0,
+      "avg_lookup_ms": 0.0,
+      "p95_lookup_ms": 0.0,
+      "llm_calls_avoided": 0,
+      "est_cost_saved": 0.0
+    },
+    {
+      "strategy": "exact_match",
+      "hit_rate": 0.09,
+      "precision": 1.0,
+      "false_hit_rate": 0.0,
+      "recall_same": 0.2,
+      "avg_lookup_ms": 5.7,
+      "p95_lookup_ms": 7.9,
+      "llm_calls_avoided": 3,
+      "est_cost_saved": 0.0001
+    },
+    {
+      "strategy": "semantic_raw",
+      "hit_rate": 0.37,
+      "precision": 0.62,
+      "false_hit_rate": 0.38,
+      "recall_same": 0.53,
+      "avg_lookup_ms": 30.2,
+      "p95_lookup_ms": 37.8,
+      "llm_calls_avoided": 13,
+      "est_cost_saved": 0.0003
+    },
+    {
+      "strategy": "semantic_verified",
+      "hit_rate": 0.23,
+      "precision": 1.0,
+      "false_hit_rate": 0.0,
+      "recall_same": 0.53,
+      "avg_lookup_ms": 27.3,
+      "p95_lookup_ms": 45.0,
+      "llm_calls_avoided": 8,
+      "est_cost_saved": 0.0002
+    }
+  ],
+  "winner": {
+    "precision": "exact_match",
+    "hit_rate": "semantic_raw"
+  }
+}

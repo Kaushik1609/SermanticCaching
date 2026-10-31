@@ -1,0 +1,13 @@
+{
+  "run_id": "r42",
+  "dataset_size": 128,
+  "thresholds": {"T_HIT": 0.85, "T_LOW": 0.75},
+  "llm_mode": "mock",
+  "rows": [
+    {"strategy": "no_cache", "hit_rate": 0.0, "precision": 0.0, "false_hit_rate": 0.0, "recall_same": 0.0, "avg_lookup_ms": 0.0, "p95_lookup_ms": 0.0, "llm_calls_avoided": 0, "est_cost_saved": 0.0},
+    {"strategy": "exact_match", "hit_rate": 0.05, "precision": 1.0, "false_hit_rate": 0.0, "recall_same": 0.10, "avg_lookup_ms": 1.8, "p95_lookup_ms": 3.2, "llm_calls_avoided": 6, "est_cost_saved": 0.09},
+    {"strategy": "semantic_raw", "hit_rate": 0.52, "precision": 0.82, "false_hit_rate": 0.18, "recall_same": 0.95, "avg_lookup_ms": 19.5, "p95_lookup_ms": 28.4, "llm_calls_avoided": 67, "est_cost_saved": 1.01},
+    {"strategy": "semantic_verified", "hit_rate": 0.41, "precision": 0.98, "false_hit_rate": 0.02, "recall_same": 0.88, "avg_lookup_ms": 20.1, "p95_lookup_ms": 31.0, "llm_calls_avoided": 52, "est_cost_saved": 0.78}
+  ],
+  "winner": {"precision": "semantic_verified", "hit_rate": "semantic_raw"}
+}

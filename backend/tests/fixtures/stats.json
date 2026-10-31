@@ -1,0 +1,26 @@
+{
+  "total_queries": 120,
+  "hits": 54,
+  "misses": 66,
+  "hit_rate": 0.45,
+  "avg_lookup_ms": 21.7,
+  "avg_total_ms_hit": 22.0,
+  "avg_total_ms_miss": 1620.3,
+  "llm_calls_made": 66,
+  "llm_calls_avoided": 54,
+  "est_cost_saved": 0.84,
+  "cost_assumptions": "assumed tokens, price from config",
+  "by_reason": {
+    "HIT_SEMANTIC": 40,
+    "HIT_EXACT": 14,
+    "MISS_AMBIGUOUS": 9,
+    "MISS_BELOW_THRESHOLD": 12,
+    "MISS_NO_CANDIDATE": 20,
+    "MISS_TIME_SENSITIVE": 5,
+    "MISS_NUMERIC_MISMATCH": 4,
+    "MISS_BYPASS": 2,
+    "MISS_EXPIRED": 6,
+    "MISS_CONFIG_MISMATCH": 4,
+    "MISS_CACHE_ERROR": 4
+  }
+}
