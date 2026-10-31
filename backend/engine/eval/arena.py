@@ -58,7 +58,7 @@ class PostgresArenaRunner:
     def __init__(self, t_hit: float = config.T_HIT, t_low: float = config.T_LOW):
         self.t_hit = t_hit
         self.t_low = t_low
-        self.mock_llm = MockLLM(latency_ms=0)
+        self.mock_llm = MockLLM(simulated_latency_ms=0)
 
     def _get_strategy(self, strat_name: str) -> BaseStrategy:
         if strat_name == "no_cache":

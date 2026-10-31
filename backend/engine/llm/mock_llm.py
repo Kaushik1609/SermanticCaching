@@ -8,8 +8,8 @@ from backend.engine.llm.base import BaseLLM, LLMResult
 class MockLLM(BaseLLM):
     """Deterministic LLM that simulates realistic latency and token consumption."""
 
-    def __init__(self, latency_ms: int = config.MOCK_LLM_LATENCY_MS):
-        self.latency_ms = latency_ms
+    def __init__(self, latency_ms: int = config.MOCK_LLM_LATENCY_MS, simulated_latency_ms: int = None):
+        self.latency_ms = simulated_latency_ms if simulated_latency_ms is not None else latency_ms
 
     def generate(self, prompt: str) -> LLMResult:
         # Simulate network & generation latency
