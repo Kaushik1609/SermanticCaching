@@ -10,12 +10,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <style>
     @layer base { 
-      html, body { margin: 0; padding: 0; } 
-      body { overscroll-behavior: none; } 
-      main > :first-child { margin-top: 0 !important; } 
-      main > :last-child { margin-bottom: 0 !important; } 
+      html, body { 
+        margin: 0; 
+        padding: 0; 
+        height: 100%;
+      } 
+      body { 
+        overflow-y: auto; 
+        scroll-behavior: smooth;
+      } 
     } 
-    ::-webkit-scrollbar { display: none; }
+    /* Visible, sleek custom scrollbars */
+    ::-webkit-scrollbar { 
+      width: 8px; 
+      height: 8px; 
+    }
+    ::-webkit-scrollbar-track { 
+      background: #eff4ff; 
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb { 
+      background: #bcc9c6; 
+      border-radius: 4px; 
+    }
+    ::-webkit-scrollbar-thumb:hover { 
+      background: #6d7a77; 
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
@@ -117,7 +137,7 @@
   </header>
 
   <!-- Main View -->
-  <main class="w-full pt-14 bg-surface min-h-screen">
+  <main class="w-full pt-14 pb-20 bg-surface min-h-screen">
     <div class="flex flex-col w-full">
       <div class="max-w-7xl mx-auto w-full py-6 px-4 sm:px-6 lg:px-8">
 
@@ -148,7 +168,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
           <!-- LEFT COLUMN: Chat Console (lg:col-span-8) -->
-          <section class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm flex flex-col h-[calc(100vh-140px)] min-h-[660px] overflow-hidden">
+          <section class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm flex flex-col h-[calc(100vh-190px)] min-h-[460px] overflow-hidden">
             <!-- Header Toolbar -->
             <header class="px-5 py-3.5 border-b border-outline-variant/40 flex items-center justify-between bg-surface-container-lowest">
               <div class="flex items-center gap-3">
@@ -228,7 +248,7 @@
           </section>
 
           <!-- RIGHT COLUMN: Cache Decision Inspector (PRD Section 9 IDs) -->
-          <aside class="lg:col-span-4 sticky top-20 bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm p-5 space-y-5">
+          <aside class="lg:col-span-4 lg:sticky lg:top-20 bg-surface-container-lowest border border-outline-variant/60 rounded-xl shadow-sm p-5 space-y-5 lg:max-h-[calc(100vh-190px)] lg:overflow-y-auto">
             <!-- Inspector Header -->
             <div class="border-b border-outline-variant/40 pb-3">
               <div class="flex items-center justify-between">
