@@ -123,22 +123,36 @@ Similarity Threshold T_HIT = 0.85
 
 ---
 ## Builder 2 Progress
-- **Status:** Completed & Verified Live
+
+### [Tasks B2-1 to B2-12] Complete Delivery & Verification
+- **Status:** 100% Completed & Verified
 - **Components Implemented:**
-  - `frontend/index.html` (Chat Console & Inspector):
-    - Replaced Stitch mock placeholder JavaScript with real `fetch()` calls to `POST /api/query`, `GET /api/stats`, `POST /api/admin/reset`, and `POST /api/entries/{id}/invalidate`.
-    - Implemented full PRD §9 DOM ID Contract: `#query-input`, `#send-btn`, `#chat-log`, `#strategy-select`, `#badge-outcome`, `#val-similarity`, `#val-lookup-ms`, `#val-total-ms`, `#val-reason`, `#val-explain`, `#val-matched`.
-    - Live dynamic right-hand inspector updates on every query exchange with semantic decision reasons, similarity bars, and latency breakdowns.
-  - `frontend/analytics.html`:
-    - Full telemetry dashboard matching PRD §9 contract (`#stat-total`, `#stat-hits`, `#stat-misses`, `#stat-hit-rate`, `#stat-avoided`, `#stat-made`, `#stat-lat-hit`, `#stat-lat-miss`, `#stat-saved`, `#reason-list`).
-  - `frontend/entries.html`:
-    - Cache entries management table with status tags, hit counts, created/expires timestamps, and admin-authenticated row-level invalidation (`#entries-body`, `#entries-total`).
-  - `frontend/arena.html`:
-    - Benchmark execution console with interactive run trigger, 4-row strategy comparison table, winner badge, and rendered threshold sweep curve image (`#arena-run`, `#arena-body`, `#arena-winner`, `#arena-sweep-img`).
-- **Live Localhost Verification:**
-  - Tested on `http://127.0.0.1:8080/`:
-    - Prompt `how does machine learning work` -> `MISS_BELOW_THRESHOLD` stored in cache with Gemini LLM generation.
-    - Repeated exact prompt -> `HIT_EXACT` in 9.8 ms (`similarity: 1.0`).
-    - Paraphrase prompt `Can you explain how machine learning works?` -> `HIT_SEMANTIC` in 78.0 ms (`similarity: 0.94 >= 0.85`, LLM not called).
-  - All 57 pytest tests pass with 0 skipped.
+  - **Evaluation Dataset (`data/eval/pairs.jsonl`):**
+    - Expanded dataset to exactly **120 human-reviewed query pairs** strictly adhering to `00_MAIN_PRD.md §5.2` and `builder2.md §3`.
+    - **Exact Category Breakdown:**
+      - `paraphrase`: 46 pairs (Target: ~45, label: `same`)
+      - `related_different`: 34 pairs (Target: ~35, label: `different` - hard negatives)
+      - `time_sensitive`: 12 pairs (Target: ~12, label: `different` - temporal keywords)
+      - `numeric`: 12 pairs (Target: ~12, label: `different` - count/year discrepancies)
+      - `ambiguous`: 10 pairs (Target: ~10, label: `different` - polysemous/underspecified)
+      - `exact_dup`: 6 pairs (Target: ~6, label: `same` - exact text and casing)
+    - Total: 52 `same`, 68 `different`. Zero duplicates, zero schema errors, all queries ≤ 200 chars.
+    - Associated documentation: `docs/dataset_notes.md`.
+  - **Dataset Validation Test (`backend/tests/test_dataset.py`):**
+    - Asserts schema integrity (id, query_a, query_b, label, category, note), string non-emptiness, category distribution targets, and uniqueness.
+    - Verified standalone via `python3 backend/tests/test_dataset.py` (ALL VALID).
+  - **Modular Frontend Architecture (`frontend/js/`):**
+    - Resolved architectural constraint from PRD §11 by extracting inline JavaScript into dedicated client modules:
+      - `frontend/js/api.js`: Unified API client managing all `fetch()` requests to `/api/*`.
+      - `frontend/js/chat.js`: Interactive console controller, dynamic Decision Inspector updater, cache reset and invalidation handlers.
+      - `frontend/js/analytics.js`: Real-time telemetry dashboard, reason-code breakdown renderer.
+      - `frontend/js/entries.js`: Cache entry table pagination, status badge formatter, row-level invalidation prompts.
+      - `frontend/js/arena.js`: Strategy comparison runner, winner detection, threshold sweep image viewer.
+    - Updated all 4 HTML pages (`index.html`, `analytics.html`, `entries.html`, `arena.html`) to cleanly import the modular scripts while maintaining 100% adherence to the PRD §9 DOM ID Contract.
+  - **Documentation & Presentation Suite:**
+    - `README.md`: Professional project documentation including pitch, decision pipeline diagram, quick start guide, environment variable reference, API table, measured Postgres evaluation results, latency benchmarks, and architectural boundaries.
+    - `docs/demo_script.md`: Turn-key 2-minute live demo script detailing roles (Builder 1 delivering / Builder 2 driving), step-by-step actions, and fallback contingency plans.
+    - `docs/dataset_notes.md`: Detailed dataset construction, category breakdown, labeling rules, and Arena protocol notes.
+    - `docs/bugs.md`: 12-flow QA verification matrix covering initial misses, exact hits, semantic hits, temporal/numeric bypasses, edge cases, zero-hit precision handling, and responsive layout tests.
+    - `docs/builder2.md`: Personal PRD synced to `docs/` folder per PRD §11.
 
