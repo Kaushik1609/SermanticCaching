@@ -153,52 +153,8 @@
     </div>
   </main>
 
-  <script>
-    async function loadStats() {
-      try {
-        const res = await fetch('/api/stats');
-        if (!res.ok) return;
-        const data = await res.json();
-
-        document.getElementById('stat-total').textContent = data.total_queries;
-        document.getElementById('stat-hits').textContent = data.hits;
-        document.getElementById('stat-misses').textContent = data.misses;
-        document.getElementById('stat-hit-rate').textContent = (data.hit_rate * 100).toFixed(1) + '%';
-        document.getElementById('stat-saved').textContent = '$' + Number(data.est_cost_saved || 0).toFixed(4);
-        document.getElementById('stat-avoided').textContent = data.llm_calls_avoided;
-        document.getElementById('stat-made').textContent = data.llm_calls_made;
-        document.getElementById('stat-lat-hit').textContent = (data.avg_total_ms_hit || 0).toFixed(1) + ' ms';
-        document.getElementById('stat-lat-miss').textContent = (data.avg_total_ms_miss || 0).toFixed(1) + ' ms';
-
-        const reasonList = document.getElementById('reason-list');
-        reasonList.innerHTML = '';
-        const entries = Object.entries(data.by_reason || {});
-        if (entries.length === 0) {
-          reasonList.innerHTML = '<div class="text-sm text-slate-400 italic">No query traffic recorded yet.</div>';
-        } else {
-          for (const [code, count] of entries) {
-            const isHit = code.startsWith('HIT');
-            const color = isHit ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-amber-800 bg-amber-50 border-amber-200';
-            const row = document.createElement('div');
-            row.className = 'flex items-center justify-between p-3 rounded-lg border border-slate-100 bg-slate-50';
-            row.innerHTML = `
-              <div class="flex items-center gap-3">
-                <span class="px-2 py-0.5 rounded font-code text-xs font-bold border ${color}">${code}</span>
-                <span class="text-xs text-slate-600 font-medium">${count} requests</span>
-              </div>
-              <span class="font-code text-xs font-semibold">${data.total_queries ? ((count / data.total_queries) * 100).toFixed(1) : 0}%</span>
-            `;
-            reasonList.appendChild(row);
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load stats:', err);
-      }
-    }
-
-    document.getElementById('refresh-btn').addEventListener('click', loadStats);
-    loadStats();
-  </script>
+  <script src="/js/api.js"></script>
+  <script src="/js/analytics.js"></script>
 </body>
 </html>
 

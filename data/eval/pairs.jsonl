@@ -34,3 +34,88 @@
 {"id": "P034", "query_a": "How does DNS lookup work?", "query_b": "Explain the DNS resolution process.", "label": "same", "category": "paraphrase", "note": "networking concept paraphrase"}
 {"id": "P035", "query_a": "What is an API?", "query_b": "What is an API gateway?", "label": "different", "category": "related_different", "note": "API concept vs gateway component"}
 
+{"id":"P036","query_a":"What is a hash table?","query_b":"Explain how hash maps work.","label":"same","category":"paraphrase","note":"data structure paraphrase"}
+{"id":"P037","query_a":"How do I create a virtual environment in Python?","query_b":"Steps to set up a Python venv","label":"same","category":"paraphrase","note":"Python venv setup"}
+{"id":"P038","query_a":"What is the difference between stack and heap memory?","query_b":"Stack vs heap memory allocation explained","label":"same","category":"paraphrase","note":"memory concepts paraphrase"}
+{"id":"P039","query_a":"How does photosynthesis work?","query_b":"Explain the process of photosynthesis in plants.","label":"same","category":"paraphrase","note":"biology paraphrase"}
+{"id":"P040","query_a":"What is the Pythagorean theorem?","query_b":"Explain the Pythagorean theorem in geometry.","label":"same","category":"paraphrase","note":"math theorem paraphrase"}
+{"id":"P041","query_a":"How to connect to PostgreSQL from Python?","query_b":"Python code to connect to a PostgreSQL database","label":"same","category":"paraphrase","note":"database connection paraphrase"}
+{"id":"P042","query_a":"What is the Big Bang theory?","query_b":"Explain the Big Bang theory of the origin of the universe.","label":"same","category":"paraphrase","note":"cosmology paraphrase"}
+{"id":"P043","query_a":"What is recursion in programming?","query_b":"Explain the concept of recursion with examples.","label":"same","category":"paraphrase","note":"CS concept paraphrase"}
+{"id":"P044","query_a":"How do HTTP cookies work?","query_b":"Explain the mechanism of cookies in web browsers.","label":"same","category":"paraphrase","note":"web technology paraphrase"}
+{"id":"P045","query_a":"What causes global warming?","query_b":"Explain the main causes of climate change.","label":"same","category":"paraphrase","note":"environmental science paraphrase"}
+{"id":"P046","query_a":"What is a REST API?","query_b":"Explain RESTful API design principles.","label":"same","category":"paraphrase","note":"API design paraphrase"}
+{"id":"P047","query_a":"How does TCP/IP protocol work?","query_b":"Explain the TCP/IP networking model.","label":"same","category":"paraphrase","note":"networking paraphrase"}
+{"id":"P048","query_a":"What is the theory of relativity?","query_b":"Explain Einstein's theory of relativity.","label":"same","category":"paraphrase","note":"physics paraphrase"}
+{"id":"P049","query_a":"How to write a SQL JOIN query?","query_b":"SQL JOIN syntax and examples","label":"same","category":"paraphrase","note":"SQL paraphrase"}
+{"id":"P050","query_a":"What is natural selection?","query_b":"Explain Darwin's concept of natural selection.","label":"same","category":"paraphrase","note":"biology evolution paraphrase"}
+{"id":"P051","query_a":"How do generators work in Python?","query_b":"Explain Python generator functions and yield.","label":"same","category":"paraphrase","note":"Python generators paraphrase"}
+{"id":"P052","query_a":"What is the water cycle?","query_b":"Describe the hydrological cycle.","label":"same","category":"paraphrase","note":"earth science paraphrase"}
+{"id":"P053","query_a":"What is binary search?","query_b":"Explain binary search algorithm.","label":"same","category":"paraphrase","note":"algorithm paraphrase"}
+{"id":"P054","query_a":"How to handle exceptions in Python?","query_b":"Python try except error handling tutorial","label":"same","category":"paraphrase","note":"error handling paraphrase"}
+{"id":"P055","query_a":"What is the Doppler effect?","query_b":"Explain the Doppler effect in physics.","label":"same","category":"paraphrase","note":"physics concept paraphrase"}
+{"id":"P056","query_a":"What is a graph database?","query_b":"Explain graph databases and their use cases.","label":"same","category":"paraphrase","note":"database type paraphrase"}
+{"id":"P057","query_a":"How to make sourdough bread at home?","query_b":"Homemade sourdough bread recipe and instructions","label":"same","category":"paraphrase","note":"cooking paraphrase"}
+{"id":"P058","query_a":"What is CRISPR gene editing?","query_b":"Explain how CRISPR-Cas9 gene editing works.","label":"same","category":"paraphrase","note":"genetics paraphrase"}
+{"id":"P059","query_a":"How does OAuth 2.0 work?","query_b":"Explain the OAuth 2.0 authorization flow.","label":"same","category":"paraphrase","note":"auth protocol paraphrase"}
+{"id":"P060","query_a":"What is the greenhouse effect?","query_b":"Explain how the greenhouse effect works.","label":"same","category":"paraphrase","note":"atmospheric science paraphrase"}
+{"id":"P061","query_a":"How to center a div in CSS?","query_b":"CSS techniques to center a div element","label":"same","category":"paraphrase","note":"web dev paraphrase"}
+{"id":"P062","query_a":"What is quantum computing?","query_b":"Explain quantum computing and qubits.","label":"same","category":"paraphrase","note":"computing paraphrase"}
+{"id":"P063","query_a":"How to implement a linked list in Java?","query_b":"Java linked list implementation example","label":"same","category":"paraphrase","note":"Java data structure paraphrase"}
+{"id":"P064","query_a":"What is plate tectonics?","query_b":"Explain the theory of plate tectonics.","label":"same","category":"paraphrase","note":"geology paraphrase"}
+{"id":"P065","query_a":"What is an inner join in SQL?","query_b":"What is a left join in SQL?","label":"different","category":"related_different","note":"inner join vs left join — different operations"}
+{"id":"P066","query_a":"How to sort a list in Python?","query_b":"How to sort a dictionary in Python?","label":"different","category":"related_different","note":"sorting list vs dictionary — different structures"}
+{"id":"P067","query_a":"What is machine learning?","query_b":"What is deep learning?","label":"different","category":"related_different","note":"ML vs DL — related but different scope"}
+{"id":"P068","query_a":"How does TCP work?","query_b":"How does UDP work?","label":"different","category":"related_different","note":"TCP vs UDP — different protocols"}
+{"id":"P069","query_a":"What is the stack data structure?","query_b":"What is the queue data structure?","label":"different","category":"related_different","note":"stack vs queue — different ADTs"}
+{"id":"P070","query_a":"What are Python decorators?","query_b":"What are Python context managers?","label":"different","category":"related_different","note":"decorators vs context managers — different features"}
+{"id":"P071","query_a":"How to read a file in Python?","query_b":"How to write a file in Python?","label":"different","category":"related_different","note":"reading vs writing — opposite operations"}
+{"id":"P072","query_a":"What is mitosis?","query_b":"What is meiosis?","label":"different","category":"related_different","note":"mitosis vs meiosis — different cell division types"}
+{"id":"P073","query_a":"What is the difference between Git merge and rebase?","query_b":"What is the difference between Git pull and fetch?","label":"different","category":"related_different","note":"merge/rebase vs pull/fetch — different Git concepts"}
+{"id":"P074","query_a":"How to create a class in Python?","query_b":"How to create a class in JavaScript?","label":"different","category":"related_different","note":"Python vs JavaScript class syntax"}
+{"id":"P075","query_a":"What is the Nile River?","query_b":"What is the Amazon River?","label":"different","category":"related_different","note":"different rivers"}
+{"id":"P076","query_a":"What is the difference between HTTP and HTTPS?","query_b":"What is the difference between HTTP/1.1 and HTTP/2?","label":"different","category":"related_different","note":"security vs protocol version comparison"}
+{"id":"P077","query_a":"How to iterate over a list in Python?","query_b":"How to iterate over a dictionary in Python?","label":"different","category":"related_different","note":"iterating list vs dict — different approaches"}
+{"id":"P078","query_a":"What is a compiler?","query_b":"What is an interpreter?","label":"different","category":"related_different","note":"compiler vs interpreter — different translation models"}
+{"id":"P079","query_a":"Explain the French Revolution.","query_b":"Explain the American Revolution.","label":"different","category":"related_different","note":"different revolutions in history"}
+{"id":"P080","query_a":"What is the difference between RNA and DNA?","query_b":"What is the difference between a gene and a chromosome?","label":"different","category":"related_different","note":"different molecular biology distinctions"}
+{"id":"P081","query_a":"How does a fuel cell work?","query_b":"How does a lithium-ion battery work?","label":"different","category":"related_different","note":"fuel cell vs battery — different energy devices"}
+{"id":"P082","query_a":"What is NoSQL?","query_b":"What is NewSQL?","label":"different","category":"related_different","note":"NoSQL vs NewSQL — different database paradigms"}
+{"id":"P083","query_a":"How to deploy a Docker container?","query_b":"How to deploy a Kubernetes pod?","label":"different","category":"related_different","note":"Docker vs Kubernetes deployment"}
+{"id":"P084","query_a":"What is supervised learning?","query_b":"What is reinforcement learning?","label":"different","category":"related_different","note":"supervised vs reinforcement — different ML paradigms"}
+{"id":"P085","query_a":"What is an abstract class in Java?","query_b":"What is an interface in Java?","label":"different","category":"related_different","note":"abstract class vs interface — different OOP concepts"}
+{"id":"P086","query_a":"Explain the electron transport chain.","query_b":"Explain the Krebs cycle.","label":"different","category":"related_different","note":"different stages of cellular respiration"}
+{"id":"P087","query_a":"How to use map() in Python?","query_b":"How to use filter() in Python?","label":"different","category":"related_different","note":"map vs filter — different higher-order functions"}
+{"id":"P088","query_a":"What is the capital of Australia?","query_b":"What is the largest city in Australia?","label":"different","category":"related_different","note":"capital vs largest city — different answers (Canberra vs Sydney)"}
+{"id":"P089","query_a":"What is the difference between a process and a thread?","query_b":"What is the difference between concurrency and parallelism?","label":"different","category":"related_different","note":"process/thread vs concurrency/parallelism — different OS concepts"}
+{"id":"P090","query_a":"How to lose weight by running?","query_b":"How to gain muscle by weightlifting?","label":"different","category":"related_different","note":"weight loss vs muscle gain — different fitness goals"}
+{"id":"P091","query_a":"What is the latest version of React?","query_b":"React newest release this year","label":"different","category":"time_sensitive","note":"latest version — changes over time"}
+{"id":"P092","query_a":"What is the score of today's NBA game?","query_b":"NBA game score tonight","label":"different","category":"time_sensitive","note":"live sports score — real-time"}
+{"id":"P093","query_a":"What is the current population of India?","query_b":"India population now","label":"different","category":"time_sensitive","note":"current population — changes over time"}
+{"id":"P094","query_a":"What are the trending topics on Twitter today?","query_b":"Latest trending hashtags on Twitter","label":"different","category":"time_sensitive","note":"trending topics — real-time"}
+{"id":"P095","query_a":"What is the current exchange rate for USD to EUR?","query_b":"USD to EUR exchange rate right now","label":"different","category":"time_sensitive","note":"exchange rate — real-time financial data"}
+{"id":"P096","query_a":"Who won the most recent Nobel Prize in Physics?","query_b":"Latest Nobel Prize in Physics winner","label":"different","category":"time_sensitive","note":"most recent — changes yearly"}
+{"id":"P097","query_a":"What is the weather in New York this week?","query_b":"New York weather forecast this week","label":"different","category":"time_sensitive","note":"weekly weather forecast — time-sensitive"}
+{"id":"P098","query_a":"Top 5 JavaScript frameworks in 2024","query_b":"Top 5 JavaScript frameworks in 2025","label":"different","category":"numeric","note":"2024 vs 2025 year difference"}
+{"id":"P099","query_a":"List 3 benefits of meditation","query_b":"List 10 benefits of meditation","label":"different","category":"numeric","note":"3 vs 10 count difference"}
+{"id":"P100","query_a":"What happened in World War 1?","query_b":"What happened in World War 2?","label":"different","category":"numeric","note":"WW1 vs WW2 — different wars"}
+{"id":"P101","query_a":"How to run a 5K race?","query_b":"How to run a 10K race?","label":"different","category":"numeric","note":"5K vs 10K — different race distances"}
+{"id":"P102","query_a":"Best laptops under $500","query_b":"Best laptops under $1000","label":"different","category":"numeric","note":"$500 vs $1000 budget difference"}
+{"id":"P103","query_a":"Explain IPv4 addressing.","query_b":"Explain IPv6 addressing.","label":"different","category":"numeric","note":"IPv4 vs IPv6 — different protocol versions"}
+{"id":"P104","query_a":"Top 7 tourist destinations in Europe","query_b":"Top 15 tourist destinations in Europe","label":"different","category":"numeric","note":"7 vs 15 count difference"}
+{"id":"P105","query_a":"What is a Python class?","query_b":"What is a Python class?  ","label":"same","category":"exact_dup","note":"trailing spaces only"}
+{"id":"P106","query_a":"how does dns work?","query_b":"How Does DNS Work?","label":"same","category":"exact_dup","note":"casing difference only"}
+{"id":"P107","query_a":"What is Kubernetes?","query_b":"What is  Kubernetes?","label":"same","category":"exact_dup","note":"extra space in query_b"}
+{"id":"P108","query_a":"What does the word 'bark' mean?","query_b":"Define bark.","label":"different","category":"ambiguous","note":"bark as tree covering vs dog sound — word-sense ambiguity"}
+{"id":"P109","query_a":"What is a bug?","query_b":"How to fix a bug?","label":"different","category":"ambiguous","note":"bug as insect vs software defect — word-sense ambiguity"}
+{"id":"P110","query_a":"What does Mercury refer to?","query_b":"Tell me about Mercury.","label":"different","category":"ambiguous","note":"planet vs element vs Roman god — referent ambiguity"}
+{"id":"P111","query_a":"What is a kernel?","query_b":"Explain kernel.","label":"different","category":"ambiguous","note":"OS kernel vs math kernel vs seed kernel — scope ambiguity"}
+{"id":"P112","query_a":"What is Java?","query_b":"Tell me about Java.","label":"different","category":"ambiguous","note":"programming language vs Indonesian island — referent ambiguity"}
+{"id":"P113","query_a":"What is a pipeline?","query_b":"Explain pipeline.","label":"different","category":"ambiguous","note":"CI/CD pipeline vs data pipeline vs oil pipeline — domain ambiguity"}
+{"id":"P114","query_a":"What is a cell?","query_b":"Define cell.","label":"different","category":"ambiguous","note":"biological cell vs spreadsheet cell vs battery cell"}
+{"id":"P115","query_a":"What is a table?","query_b":"Describe a table.","label":"different","category":"ambiguous","note":"database table vs furniture table — domain ambiguity"}
+{"id":"P116","query_a":"How to prepare for a GRE exam?","query_b":"GRE preparation tips and study plan","label":"same","category":"paraphrase","note":"education exam prep paraphrase"}
+{"id":"P117","query_a":"What is the boiling point of water?","query_b":"At what temperature does water boil?","label":"same","category":"paraphrase","note":"chemistry factual paraphrase"}
+{"id":"P118","query_a":"How to improve study habits?","query_b":"Tips for better study techniques","label":"same","category":"paraphrase","note":"education productivity paraphrase"}
+{"id":"P119","query_a":"What were the causes of the American Civil War?","query_b":"Why did the American Civil War start?","label":"same","category":"paraphrase","note":"history paraphrase"}
+{"id":"P120","query_a":"What is a black hole?","query_b":"Explain what a black hole is in astrophysics.","label":"same","category":"paraphrase","note":"astronomy paraphrase"}
