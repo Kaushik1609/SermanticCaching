@@ -3,8 +3,8 @@
 ## System State
 - **Project:** CacheIQ — Explainable Semantic Cache for LLM Apps
 - **Source of Truth:** `docs/00_MAIN_PRD.md`
-- **Current Phase:** All Builder 1 (P0 to P7) and Builder 2 (B2-1 to B2-12) phases completed; system is ready for live demo and evaluation
-- **Role:** Builder 2 (Evaluation Dataset, Frontend Modularization, Documentation, QA)
+- **Current Phase:** Phase P8 (Traffic Simulation & Zipf Evaluation) completed; system audited and 100% green
+- **Role:** Builder 1 (Backend, Algorithms, Evaluation) & Builder 2 (Dataset, UI, Docs)
 
 ## Key Architectural Decisions
 1. **D1 (UI Serving):** Static HTML + Tailwind CDN + Vanilla JS served via FastAPI `StaticFiles(directory="frontend", html=True)`.
@@ -17,11 +17,13 @@
    - `design_system.md`: Full style specification and tokens
 6. **Embeddings:** `all-MiniLM-L6-v2` L2-normalised (unit length) vectors; cosine similarity = dot product.
 7. **Match Verifier Architecture:** Strict architectural separation: `engine/verifier` imports zero modules from `engine/search` or `engine/store`. Evaluates rules V1..V5 in exact order.
-8. **Evaluation Proof:** The sweep proves that without the Match Verifier, `semantic_raw` suffers from a 38% false-hit rate at threshold 0.85, whereas `semantic_verified` eliminates wrong answers (0% false-hit rate, 100% precision).
+8. **Evaluation Proof:**
+   - On the pairs dataset, `semantic_raw` suffers from a 38% false-hit rate at threshold 0.85, whereas `semantic_verified` eliminates wrong answers (0% false-hit rate, 100% precision).
+   - In realistic Zipf traffic simulation ($N=1000, \alpha=1.1$ on the test split), `semantic_raw` yields 38 false hits (serving incorrect cached answers), whereas `semantic_verified` reduces false hits by 63% (14 false hits, 98.42% precision) while avoiding 887 LLM calls ($23.15 cost saved assumed, 1330.5s simulated LLM latency saved).
 9. **Modular Frontend JS:** Clean separation into `frontend/js/api.js`, `chat.js`, `analytics.js`, `entries.js`, and `arena.js`.
+10. **Traffic Simulation & Split Integrity:** `scripts/traffic_sim.py` generates workloads strictly using the TEST split, constructs multi-variant intents for "same" pairs, and enforces complete isolation using transient context keys.
 
-## Builder 2 Deliverables Complete
-- **Evaluation Dataset:** 120 human-reviewed pairs in `data/eval/pairs.jsonl` validated by `backend/tests/test_dataset.py`.
-- **Frontend Pages:** All 4 screens (`index.html`, `analytics.html`, `entries.html`, `arena.html`) wired to modular JS and matching the PRD §9 DOM ID Contract.
-- **Documentation:** `README.md`, `docs/demo_script.md` (2-minute script), `docs/dataset_notes.md`, `docs/bugs.md` (12-flow QA pass), and `docs/builder2.md`.
-
+## Test & Build Status
+- **Pytest:** 65 passed, 0 skipped (`pytest backend/tests -v`).
+- **Target:** `make traffic` runs `python scripts/traffic_sim.py` seamlessly.
+- **Results:** `data/results/traffic.json` and `data/results/traffic.png` updated and verified.

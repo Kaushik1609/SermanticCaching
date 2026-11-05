@@ -1,0 +1,401 @@
+{
+  "seed": 42,
+  "n_requests": 1000,
+  "zipf_exponent": 1.1,
+  "split": "test",
+  "n_test_pairs": 60,
+  "n_intents": 94,
+  "n_multi_variant_intents": 26,
+  "t_hit": 0.85,
+  "t_low": 0.75,
+  "strategies": [
+    {
+      "strategy": "no_cache",
+      "total_requests": 1000,
+      "hits": 0,
+      "correct_hits": 0,
+      "false_hits": 0,
+      "hit_rate": 0.0,
+      "precision": null,
+      "llm_calls_made": 1000,
+      "llm_calls_avoided": 0,
+      "mean_lookup_ms": 0.0,
+      "p95_lookup_ms": 0.0,
+      "est_cost_saved_assumed": 0.0,
+      "simulated_llm_time_saved_ms": 0,
+      "cumulative_hit_rate": [
+        {
+          "requests": 50,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 100,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 150,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 200,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 250,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 300,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 350,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 400,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 450,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 500,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 550,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 600,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 650,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 700,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 750,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 800,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 850,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 900,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 950,
+          "hit_rate": 0.0
+        },
+        {
+          "requests": 1000,
+          "hit_rate": 0.0
+        }
+      ]
+    },
+    {
+      "strategy": "exact_match",
+      "total_requests": 1000,
+      "hits": 889,
+      "correct_hits": 889,
+      "false_hits": 0,
+      "hit_rate": 0.889,
+      "precision": 1.0,
+      "llm_calls_made": 111,
+      "llm_calls_avoided": 889,
+      "mean_lookup_ms": 5.65,
+      "p95_lookup_ms": 8.5,
+      "est_cost_saved_assumed": 0.023203,
+      "simulated_llm_time_saved_ms": 1333500,
+      "cumulative_hit_rate": [
+        {
+          "requests": 50,
+          "hit_rate": 0.36
+        },
+        {
+          "requests": 100,
+          "hit_rate": 0.53
+        },
+        {
+          "requests": 150,
+          "hit_rate": 0.6333
+        },
+        {
+          "requests": 200,
+          "hit_rate": 0.68
+        },
+        {
+          "requests": 250,
+          "hit_rate": 0.72
+        },
+        {
+          "requests": 300,
+          "hit_rate": 0.7433
+        },
+        {
+          "requests": 350,
+          "hit_rate": 0.7629
+        },
+        {
+          "requests": 400,
+          "hit_rate": 0.7825
+        },
+        {
+          "requests": 450,
+          "hit_rate": 0.7933
+        },
+        {
+          "requests": 500,
+          "hit_rate": 0.81
+        },
+        {
+          "requests": 550,
+          "hit_rate": 0.82
+        },
+        {
+          "requests": 600,
+          "hit_rate": 0.8333
+        },
+        {
+          "requests": 650,
+          "hit_rate": 0.8385
+        },
+        {
+          "requests": 700,
+          "hit_rate": 0.8457
+        },
+        {
+          "requests": 750,
+          "hit_rate": 0.8533
+        },
+        {
+          "requests": 800,
+          "hit_rate": 0.8625
+        },
+        {
+          "requests": 850,
+          "hit_rate": 0.8694
+        },
+        {
+          "requests": 900,
+          "hit_rate": 0.8767
+        },
+        {
+          "requests": 950,
+          "hit_rate": 0.8832
+        },
+        {
+          "requests": 1000,
+          "hit_rate": 0.889
+        }
+      ]
+    },
+    {
+      "strategy": "semantic_raw",
+      "total_requests": 1000,
+      "hits": 914,
+      "correct_hits": 876,
+      "false_hits": 38,
+      "hit_rate": 0.914,
+      "precision": 0.9584,
+      "llm_calls_made": 86,
+      "llm_calls_avoided": 914,
+      "mean_lookup_ms": 17.7,
+      "p95_lookup_ms": 61.5,
+      "est_cost_saved_assumed": 0.023855,
+      "simulated_llm_time_saved_ms": 1371000,
+      "cumulative_hit_rate": [
+        {
+          "requests": 50,
+          "hit_rate": 0.42
+        },
+        {
+          "requests": 100,
+          "hit_rate": 0.6
+        },
+        {
+          "requests": 150,
+          "hit_rate": 0.6867
+        },
+        {
+          "requests": 200,
+          "hit_rate": 0.725
+        },
+        {
+          "requests": 250,
+          "hit_rate": 0.76
+        },
+        {
+          "requests": 300,
+          "hit_rate": 0.7867
+        },
+        {
+          "requests": 350,
+          "hit_rate": 0.8057
+        },
+        {
+          "requests": 400,
+          "hit_rate": 0.8225
+        },
+        {
+          "requests": 450,
+          "hit_rate": 0.8311
+        },
+        {
+          "requests": 500,
+          "hit_rate": 0.844
+        },
+        {
+          "requests": 550,
+          "hit_rate": 0.8545
+        },
+        {
+          "requests": 600,
+          "hit_rate": 0.8667
+        },
+        {
+          "requests": 650,
+          "hit_rate": 0.8723
+        },
+        {
+          "requests": 700,
+          "hit_rate": 0.88
+        },
+        {
+          "requests": 750,
+          "hit_rate": 0.8867
+        },
+        {
+          "requests": 800,
+          "hit_rate": 0.8938
+        },
+        {
+          "requests": 850,
+          "hit_rate": 0.8988
+        },
+        {
+          "requests": 900,
+          "hit_rate": 0.9044
+        },
+        {
+          "requests": 950,
+          "hit_rate": 0.9095
+        },
+        {
+          "requests": 1000,
+          "hit_rate": 0.914
+        }
+      ]
+    },
+    {
+      "strategy": "semantic_verified",
+      "total_requests": 1000,
+      "hits": 887,
+      "correct_hits": 873,
+      "false_hits": 14,
+      "hit_rate": 0.887,
+      "precision": 0.9842,
+      "llm_calls_made": 113,
+      "llm_calls_avoided": 887,
+      "mean_lookup_ms": 15.04,
+      "p95_lookup_ms": 52.2,
+      "est_cost_saved_assumed": 0.023151,
+      "simulated_llm_time_saved_ms": 1330500,
+      "cumulative_hit_rate": [
+        {
+          "requests": 50,
+          "hit_rate": 0.42
+        },
+        {
+          "requests": 100,
+          "hit_rate": 0.6
+        },
+        {
+          "requests": 150,
+          "hit_rate": 0.6867
+        },
+        {
+          "requests": 200,
+          "hit_rate": 0.725
+        },
+        {
+          "requests": 250,
+          "hit_rate": 0.748
+        },
+        {
+          "requests": 300,
+          "hit_rate": 0.7667
+        },
+        {
+          "requests": 350,
+          "hit_rate": 0.7857
+        },
+        {
+          "requests": 400,
+          "hit_rate": 0.8025
+        },
+        {
+          "requests": 450,
+          "hit_rate": 0.8089
+        },
+        {
+          "requests": 500,
+          "hit_rate": 0.822
+        },
+        {
+          "requests": 550,
+          "hit_rate": 0.8309
+        },
+        {
+          "requests": 600,
+          "hit_rate": 0.8383
+        },
+        {
+          "requests": 650,
+          "hit_rate": 0.8446
+        },
+        {
+          "requests": 700,
+          "hit_rate": 0.85
+        },
+        {
+          "requests": 750,
+          "hit_rate": 0.8587
+        },
+        {
+          "requests": 800,
+          "hit_rate": 0.8675
+        },
+        {
+          "requests": 850,
+          "hit_rate": 0.8741
+        },
+        {
+          "requests": 900,
+          "hit_rate": 0.88
+        },
+        {
+          "requests": 950,
+          "hit_rate": 0.8842
+        },
+        {
+          "requests": 1000,
+          "hit_rate": 0.887
+        }
+      ]
+    }
+  ]
+}

@@ -8,9 +8,9 @@ from backend.engine.llm.base import BaseLLM, LLMResult
 class GeminiLLM(BaseLLM):
     """Real Gemini LLM client with fallback across flash-latest models."""
 
-    CANDIDATE_MODELS = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-2.5-flash-lite"]
+    CANDIDATE_MODELS = ["gemini-3.5-flash-lite", "gemini-flash-lite-latest", "gemini-3.5-flash", "gemini-flash-latest"]
 
-    def __init__(self, api_key: str = config.GEMINI_API_KEY, model_name: str = "gemini-flash-lite-latest"):
+    def __init__(self, api_key: str = config.GEMINI_API_KEY, model_name: str = "gemini-3.5-flash-lite"):
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
         self.model_name = model_name
         self._client = None

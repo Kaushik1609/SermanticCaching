@@ -1,4 +1,4 @@
-.PHONY: setup db-up db-down migrate run test eval
+.PHONY: setup db-up db-down migrate run test eval traffic
 
 setup:
 	pip install -r requirements.txt
@@ -21,3 +21,6 @@ test:
 
 eval:
 	python scripts/threshold_sweep.py && python scripts/benchmark_latency.py
+
+traffic:
+	python scripts/traffic_sim.py
