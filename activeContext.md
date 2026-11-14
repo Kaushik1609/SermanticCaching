@@ -3,7 +3,7 @@
 ## System State
 - **Project:** CacheIQ — Explainable Semantic Cache for LLM Apps
 - **Source of Truth:** `docs/00_MAIN_PRD.md`
-- **Current Phase:** Phase P8 (Traffic Simulation & Zipf Evaluation) completed; system audited and 100% green
+- **Current Phase:** Phase P9 (Containerization & Standalone Docker Packaging) completed & verified
 - **Role:** Builder 1 (Backend, Algorithms, Evaluation) & Builder 2 (Dataset, UI, Docs)
 
 ## Key Architectural Decisions
@@ -22,8 +22,10 @@
    - In realistic Zipf traffic simulation ($N=1000, \alpha=1.1$ on the test split), `semantic_raw` yields 38 false hits (serving incorrect cached answers), whereas `semantic_verified` reduces false hits by 63% (14 false hits, 98.42% precision) while avoiding 887 LLM calls ($23.15 cost saved assumed, 1330.5s simulated LLM latency saved).
 9. **Modular Frontend JS:** Clean separation into `frontend/js/api.js`, `chat.js`, `analytics.js`, `entries.js`, and `arena.js`.
 10. **Traffic Simulation & Split Integrity:** `scripts/traffic_sim.py` generates workloads strictly using the TEST split, constructs multi-variant intents for "same" pairs, and enforces complete isolation using transient context keys.
+11. **Containerization & Deployment:** Standalone `Dockerfile` using `python:3.11-slim`, lightweight CPU-only PyTorch build, and pre-baked embedding weights (`all-MiniLM-L6-v2`) in `/app/.hf_cache` for fast cold starts. `.dockerignore` blocks sensitive `.env`, git artifacts, and outputs.
 
 ## Test & Build Status
 - **Pytest:** 65 passed, 0 skipped (`pytest backend/tests -v`).
 - **Target:** `make traffic` runs `python scripts/traffic_sim.py` seamlessly.
+- **Docker Image:** `cacheiq:latest` built and validated with `MOCK_API=1` on port 8000.
 - **Results:** `data/results/traffic.json` and `data/results/traffic.png` updated and verified.

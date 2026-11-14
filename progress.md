@@ -92,3 +92,10 @@
   - **Dataset Validation Test (`backend/tests/test_dataset.py`):** Schema integrity, category distribution, non-emptiness.
   - **Modular Frontend Architecture (`frontend/js/`):** `api.js`, `chat.js`, `analytics.js`, `entries.js`, `arena.js`.
   - **Documentation & Presentation Suite:** `README.md`, `docs/demo_script.md`, `docs/dataset_notes.md`, `docs/bugs.md`, `docs/builder2.md`.
+
+### [Phase P9] Containerization & Docker Packaging
+- **Status:** Completed & Tested
+- **Components Implemented:**
+  - `Dockerfile`: Multi-step build using `python:3.11-slim` with CPU-only PyTorch pre-installation (`https://download.pytorch.org/whl/cpu`), caching the `all-MiniLM-L6-v2` embedding model at image build time to ensure zero cold-start delay upon container boot.
+  - `.dockerignore`: Exclusion rules safeguarding secrets (`.env`), git metadata (`.git`, `.github`), caches (`__pycache__`, `.pytest_cache`), documentation, and raw output data while preserving `frontend/` and `data/eval/`.
+  - **Local Validation:** Built `cacheiq:latest` and executed standalone container test (`docker run --rm -p 8000:8000 -e PORT=8000 -e MOCK_API=1 cacheiq`). Verified `GET /api/health` (200 OK), `GET /` (200 OK), and `POST /api/query` (200 OK).
