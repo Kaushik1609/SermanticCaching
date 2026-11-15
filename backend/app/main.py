@@ -19,18 +19,19 @@ async def lifespan(app: FastAPI):
     # 1. Auto-apply database migration if tables do not exist (e.g. fresh Render Postgres)
     try:
         if not (os.getenv("MOCK_API", "0") == "1" or config.MOCK_API):
-            from backend.engine.store.db import get_db
+            import psycopg
             migration_file = Path(__file__).parent.parent / "migrations" / "001_init.sql"
             if migration_file.exists():
-                with get_db() as conn:
+                with psycopg.connect(config.DATABASE_URL, connect_timeout=10) as conn:
                     with conn.cursor() as cur:
                         cur.execute("SELECT to_regclass('public.cache_entries');")
                         res = cur.fetchone()
-                        if not res or not res.get("to_regclass"):
+                        if not res or not res[0]:
                             with open(migration_file, "r", encoding="utf-8") as f:
                                 sql = f.read()
                             cur.execute(sql)
                             conn.commit()
+                            print("[Startup] Applied 001_init.sql migration successfully.")
     except Exception as e:
         print(f"[Startup] Database migration notice: {e}")
 

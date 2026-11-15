@@ -19,7 +19,11 @@ _pool: Optional[ConnectionPool] = None
 def _configure_connection(conn: psycopg.Connection) -> None:
     """Register pgvector and set dictionary row factory on each connection."""
     conn.row_factory = dict_row
-    register_vector(conn)
+    try:
+        register_vector(conn)
+    except Exception:
+        # Vector extension might not be installed yet before migrations run
+        pass
 
 
 def get_pool() -> ConnectionPool:
