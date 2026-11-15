@@ -6,6 +6,7 @@ from pathlib import Path
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -24,6 +25,15 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="CacheIQ", version="2.0.0", lifespan=lifespan)
+
+# Allow CORS for decoupling frontend and backend across different ports or file:// origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.exception_handler(HTTPException)

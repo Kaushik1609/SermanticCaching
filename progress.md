@@ -99,3 +99,12 @@
   - `Dockerfile`: Multi-step build using `python:3.11-slim` with CPU-only PyTorch pre-installation (`https://download.pytorch.org/whl/cpu`), caching the `all-MiniLM-L6-v2` embedding model at image build time to ensure zero cold-start delay upon container boot.
   - `.dockerignore`: Exclusion rules safeguarding secrets (`.env`), git metadata (`.git`, `.github`), caches (`__pycache__`, `.pytest_cache`), documentation, and raw output data while preserving `frontend/` and `data/eval/`.
   - **Local Validation:** Built `cacheiq:latest` and executed standalone container test (`docker run --rm -p 8000:8000 -e PORT=8000 -e MOCK_API=1 cacheiq`). Verified `GET /api/health` (200 OK), `GET /` (200 OK), and `POST /api/query` (200 OK).
+
+### [Phase P10] Frontend-Backend Connection & Full Stack Integration
+- **Status:** Completed & Verified
+- **Components Implemented:**
+  - `backend/app/main.py`: Configured `CORSMiddleware` (`allow_origins=["*"]`, `allow_credentials=True`, `allow_methods=["*"]`, `allow_headers=["*"]`) to support cross-origin requests from frontend dev servers (e.g. VS Code Live Server on port 5500) and file origins.
+  - `frontend/js/api.js`: Added dynamic API base resolver that routes to `http://127.0.0.1:8080/api` when served from separate dev ports/file origins, while retaining `/api` when hosted by FastAPI.
+  - `frontend/*.html`: Updated script imports to relative paths (`js/...`) for subpath and Live Server compatibility.
+  - **Live Verification:** PostgreSQL pgvector container and Uvicorn FastAPI server running on `http://127.0.0.1:8080`. Verified `GET /api/health`, `GET /`, all 4 HTML views (`index.html`, `analytics.html`, `entries.html`, `arena.html`), static assets, CORS preflight checks, and end-to-end `POST /api/query`. All 65 tests passing.
+

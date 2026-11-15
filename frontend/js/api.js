@@ -1,15 +1,39 @@
 /**
  * CacheIQ API client — the single file that calls fetch().
- * Base URL is relative (/api/...) so no CORS setup needed.
+ * Intelligently resolves the API base URL:
+ * - When served from FastAPI (e.g. port 8080 or 8000), uses relative "/api"
+ * - When served from a separate dev server (e.g. Live Server port 5500, 3000, 5173) or file://,
+ *   targets "http://127.0.0.1:8080/api"
  */
-const BASE = "/api";
+const BASE = (function getApiBase() {
+  if (typeof window !== "undefined" && window.location) {
+    if (window.location.protocol === "file:") {
+      return "http://127.0.0.1:8080/api";
+    }
+    const port = window.location.port;
+    if (port && port !== "8080" && port !== "8000") {
+      const hostname = window.location.hostname || "127.0.0.1";
+      return "http://" + hostname + ":8080/api";
+    }
+  }
+  return "/api";
+})();
+
+if (typeof window !== "undefined") {
+  window.CACHEIQ_API_BASE = BASE;
+}
 
 async function call(path, options = {}) {
   const headers = { "Content-Type": "application/json", ...options.headers };
-  const res = await fetch(BASE + path, { ...options, headers });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data?.error?.message || res.statusText);
-  return data;
+  try {
+    const res = await fetch(BASE + path, { ...options, headers });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error?.message || res.statusText);
+    return data;
+  } catch (err) {
+    console.error("CacheIQ API Error [" + BASE + path + "]:", err);
+    throw err;
+  }
 }
 
 /**
