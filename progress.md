@@ -105,7 +105,7 @@
 - **Components Implemented:**
   - `backend/app/main.py`: Configured `CORSMiddleware` (`allow_origins=["*"]`, `allow_credentials=True`, `allow_methods=["*"]`, `allow_headers=["*"]`) to support cross-origin requests from frontend dev servers (e.g. VS Code Live Server on port 5500) and file origins; added auto-migration for fresh PostgreSQL instances in lifespan.
   - `frontend/js/api.js`: Added dynamic API base resolver with default production Render backend (`https://cacheiq-backend.onrender.com/api`) and automatic 404 fallback; safe response parsing preventing raw JSON crashes on HTML 404s; interactive backend connection modal on `#db-status-badge`.
-  - `frontend/js/chat.js`: Wired live health telemetry into `#db-status-badge` (marking green when connected and amber "Backend Disconnected" when unreachable).
+  - `frontend/js/chat.js`: Wired live health telemetry into `#db-status-badge` (marking green when connected and amber "Backend Disconnected" when unreachable); added continuous chat session persistence via localStorage (`cacheiq_chat_history_v1`) so conversation and inspector stay intact across browser refreshes until explicitly cleared with "Reset Cache".
   - `vercel.json` & `frontend/vercel.json`: Added reverse proxy rewrites routing `/api/*` to `https://cacheiq-backend.onrender.com/api/*` so all Vercel visitors connect automatically with zero configuration.
   - `render.yaml`: Blueprint specification for 1-click cloud deployment of PostgreSQL 16 pgvector database and Dockerized FastAPI backend.
   - **Live Verification:** Verified Render live backend (`https://cacheiq-backend.onrender.com/api/health` ➔ 200 OK with `db_ok: true`, `model_loaded: true`, `llm_mode: gemini`). All 65 tests passing.

@@ -36,6 +36,43 @@
   var invalidateBtn = document.getElementById('invalidateBtn');
 
   var currentMatchedEntryId = null;
+  var CHAT_STORAGE_KEY = 'cacheiq_chat_history_v1';
+
+  function saveMessage(query, data) {
+    try {
+      var history = JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY) || '[]');
+      history.push({ query: query, data: data, time: Date.now() });
+      if (history.length > 50) history.shift();
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(history));
+    } catch (e) {}
+  }
+
+  function restoreHistory() {
+    try {
+      var history = JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY) || '[]');
+      if (!history || history.length === 0) return;
+
+      history.forEach(function(item) {
+        var userExchange = document.createElement('div');
+        userExchange.className = 'space-y-3';
+        userExchange.innerHTML =
+          '<div class="flex justify-end">' +
+            '<div class="rounded-2xl rounded-tr-sm bg-on-surface text-surface-container-lowest px-4 py-3 max-w-md shadow-sm font-body-md text-body-md">' +
+              escapeHtml(item.query) +
+            '</div>' +
+          '</div>';
+        userExchange.appendChild(buildResponseBubble(item.data));
+        chatLog.appendChild(userExchange);
+      });
+      chatLog.scrollTop = chatLog.scrollHeight;
+
+      var latest = history[history.length - 1];
+      if (latest && latest.data) {
+        updateInspector(latest.data);
+        currentMatchedEntryId = latest.data.matched_entry_id;
+      }
+    } catch (e) {}
+  }
 
   function escapeHtml(text) {
     if (!text) return '';
@@ -77,6 +114,7 @@
   }
 
   syncHealth();
+  restoreHistory();
 
   /** Update the inspector panel with API response data. */
   function updateInspector(data) {
@@ -205,8 +243,10 @@
         userExchange.appendChild(buildResponseBubble(data));
         chatLog.scrollTop = chatLog.scrollHeight;
 
+        saveMessage(query, data);
         updateInspector(data);
         syncHealth();
+  restoreHistory();
       }).catch(function(err) {
         var spinner = userExchange.querySelector('.query-loading-spinner');
         if (spinner) spinner.remove();
@@ -233,6 +273,7 @@
     resetSessionBtn.addEventListener('click', function() {
       if (!confirm('Clear all cache entries and query telemetry?')) return;
       adminReset('changeme').then(function() {
+        try { localStorage.removeItem(CHAT_STORAGE_KEY); } catch (e) {}
         chatLog.innerHTML =
           '<div class="space-y-3"><div class="flex justify-start">' +
             '<div class="rounded-2xl rounded-tl-sm bg-surface-container-lowest border border-outline-variant/60 text-on-surface p-4 max-w-xl shadow-sm">' +
@@ -255,6 +296,7 @@
         valMatchedId.innerHTML = 'ID: <strong class="text-on-surface">—</strong>';
         currentMatchedEntryId = null;
         syncHealth();
+  restoreHistory();
       }).catch(function(e) {
         alert('Reset failed: ' + e.message);
       });
