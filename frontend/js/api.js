@@ -6,8 +6,11 @@
  * - Global override: window.CACHEIQ_BACKEND_URL
  * - Localhost / 127.0.0.1 on ports 8080/8000 uses "/api"
  * - Localhost on dev ports (5500, 3000, 5173) or file:// uses "http://127.0.0.1:8080/api"
- * - Cloud deployments (e.g. Vercel) without saved URL default to "/api"
+ * - Production cloud deployments (e.g. Vercel) default to "/api" (proxied to Render via vercel.json)
+ *   or fallback directly to "https://cacheiq-backend.onrender.com/api"
  */
+const DEFAULT_PROD_BACKEND = "https://cacheiq-backend.onrender.com/api";
+
 function getApiBase() {
   if (typeof window !== "undefined" && window.location) {
     // 1. Query parameter override (?backend=https://...)
@@ -41,7 +44,7 @@ function getApiBase() {
       return "http://127.0.0.1:8080/api";
     }
 
-    // 5. Localhost / 127.0.0.1 dev servers
+    // 5. Local dev servers
     const hostname = window.location.hostname || "127.0.0.1";
     const port = window.location.port;
     const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
@@ -52,6 +55,10 @@ function getApiBase() {
       }
       return "/api";
     }
+
+    // 6. When hosted on cloud (e.g. Vercel), relative "/api" is rewrote by vercel.json.
+    // If not rewritten, DEFAULT_PROD_BACKEND acts as direct fallback.
+    return "/api";
   }
   return "/api";
 }
@@ -130,9 +137,24 @@ if (typeof document !== "undefined") {
 
 async function call(path, options = {}) {
   const headers = { "Content-Type": "application/json", ...options.headers };
-  const targetUrl = BASE + path;
+  let targetUrl = BASE + path;
   try {
-    const res = await fetch(targetUrl, { ...options, headers });
+    let res = await fetch(targetUrl, { ...options, headers });
+
+    // Automatic fallback if relative /api returns 404 on cloud (e.g. Vercel without rewrites)
+    if (
+      res.status === 404 &&
+      BASE === "/api" &&
+      typeof window !== "undefined" &&
+      window.location &&
+      window.location.hostname !== "localhost" &&
+      window.location.hostname !== "127.0.0.1"
+    ) {
+      BASE = DEFAULT_PROD_BACKEND;
+      targetUrl = BASE + path;
+      res = await fetch(targetUrl, { ...options, headers });
+    }
+
     const contentType = res.headers.get("content-type") || "";
     const isJson = contentType.includes("application/json");
 

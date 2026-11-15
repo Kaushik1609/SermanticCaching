@@ -3,8 +3,13 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://cacheiq-backend.onrender.com/api/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/frontend/$1"
     }
   ]
 }
+
