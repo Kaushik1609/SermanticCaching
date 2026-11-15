@@ -47,11 +47,22 @@
   /** Sync health endpoint and live stats into the header. */
   function syncHealth() {
     getHealth().then(function(data) {
+      if (typeof updateConnectionStatus === 'function') {
+        updateConnectionStatus(true);
+      }
       var modeEl = document.getElementById('llm-mode-label');
       if (modeEl) {
         modeEl.textContent = data.llm_mode === 'gemini' ? 'Gemini Live' : (data.llm_mode || 'Mock');
       }
-    }).catch(function() {});
+    }).catch(function(err) {
+      if (typeof updateConnectionStatus === 'function') {
+        updateConnectionStatus(false, err.message);
+      }
+      var modeEl = document.getElementById('llm-mode-label');
+      if (modeEl) {
+        modeEl.textContent = 'Disconnected';
+      }
+    });
 
     getStats().then(function(stats) {
       var savingsEl = document.getElementById('header-savings');

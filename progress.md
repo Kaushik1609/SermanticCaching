@@ -104,7 +104,8 @@
 - **Status:** Completed & Verified
 - **Components Implemented:**
   - `backend/app/main.py`: Configured `CORSMiddleware` (`allow_origins=["*"]`, `allow_credentials=True`, `allow_methods=["*"]`, `allow_headers=["*"]`) to support cross-origin requests from frontend dev servers (e.g. VS Code Live Server on port 5500) and file origins.
-  - `frontend/js/api.js`: Added dynamic API base resolver that routes to `http://127.0.0.1:8080/api` when served from separate dev ports/file origins, while retaining `/api` when hosted by FastAPI.
+  - `frontend/js/api.js`: Added dynamic API base resolver that supports query parameter (`?backend=...`), `localStorage`, and window overrides; added safe response parsing preventing raw JSON crashes on HTML 404s; added interactive backend connection modal on `#db-status-badge`.
+  - `frontend/js/chat.js`: Wired live health telemetry into `#db-status-badge` (marking green when connected and amber "Backend Disconnected" when unreachable).
   - `frontend/*.html`: Updated script imports to relative paths (`js/...`) for subpath and Live Server compatibility.
   - **Live Verification:** PostgreSQL pgvector container and Uvicorn FastAPI server running on `http://127.0.0.1:8080`. Verified `GET /api/health`, `GET /`, all 4 HTML views (`index.html`, `analytics.html`, `entries.html`, `arena.html`), static assets, CORS preflight checks, and end-to-end `POST /api/query`. All 65 tests passing.
 
