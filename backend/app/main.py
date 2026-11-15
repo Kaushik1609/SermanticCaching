@@ -16,7 +16,25 @@ from backend.engine.embedding import embedder
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Warm up embedding model at startup so first user request is not delayed
+    # 1. Auto-apply database migration if tables do not exist (e.g. fresh Render Postgres)
+    try:
+        if not (os.getenv("MOCK_API", "0") == "1" or config.MOCK_API):
+            from backend.engine.store.db import get_db
+            migration_file = Path(__file__).parent.parent / "migrations" / "001_init.sql"
+            if migration_file.exists():
+                with get_db() as conn:
+                    with conn.cursor() as cur:
+                        cur.execute("SELECT to_regclass('public.cache_entries');")
+                        res = cur.fetchone()
+                        if not res or not res.get("to_regclass"):
+                            with open(migration_file, "r", encoding="utf-8") as f:
+                                sql = f.read()
+                            cur.execute(sql)
+                            conn.commit()
+    except Exception as e:
+        print(f"[Startup] Database migration notice: {e}")
+
+    # 2. Warm up embedding model at startup so first user request is not delayed
     try:
         embedder.warm_up()
     except Exception:
